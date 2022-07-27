@@ -31,8 +31,8 @@ conda env create -f environment.yml
 |  Option  |  Parameter(s)  |  Description  |  Requirement  |
 |---   |:-:   |:-:   |--:  |
 |  `--reads`  |  `fastq1 ....gz`  |  Input `fastq` file |  Required if there is no `--multi_files`argument |
-|  `--multi_files`  |  `multi_fastq.txt`  |  TXT file with, in each line, the path of files which are processed together (example in test repository *(je vois pas ce fichier dans le dossier test)*)  |  Required if there is no `--reads`argument |
-|  `--ref_prot`  |  `ref_prot_name`  | the prefix of FA file with all reference proteins and un dmmd *Pas compris* file for [DIAMOND]  |  Required. By Default : `OneKpGenes database`  | 
+|  `--multi_files`  |  `multi_fastq.txt`  |  TXT file with, in each line, the path of files which are processed together (example in [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/4.LocoGSE-tutorial) ) |  Required if there is no `--reads`argument |
+|  `--ref_prot`  |  `ref_prot_name`  | the prefix of FA file with all reference proteins and a .dmmd  file for [DIAMOND](https://github.com/bbuchfink/diamond)  |  Required. By Default : `OneKpGenes database`  | 
 | `--recovery, -r`  | present or not |  Recovery option to continue a previous run after main steps  |  Optional  |
 | `--threads, -t`  |  `int number`  |  Number of cpus for the pipeline  |  Optional  |
 |  `--slope, -s `  |  `float number` |  Specific slope of a family.  |  Optional |
