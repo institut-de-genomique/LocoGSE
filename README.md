@@ -33,14 +33,17 @@ conda env create -f environment.yml
 |  `--reads`  |  `fastq1 ....gz`  |  Input `fastq` file |  Required if there is no `--multi_files`argument |
 |  `--multi_files`  |  `multi_fastq.txt`  |  TXT file with, in each line, the path of files which are processed together (example in test repository *(je vois pas ce fichier dans le dossier test)*)  |  Required if there is no `--reads`argument |
 |  `--ref_prot`  |  `ref_prot_name`  | the prefix of FA file with all reference proteins and un dmmd *Pas compris* file for [DIAMOND]  |  Required. By Default : `OneKpGenes database`  | 
-| `--recovery, -r`  |  `yes`  |  Recovery option to continue a previous run after main steps  |  Optional  |
+| `--recovery, -r`  | present or not |  Recovery option to continue a previous run after main steps  |  Optional  |
 | `--threads, -t`  |  `int number`  |  Number of cpus for the pipeline  |  Optional  |
 |  `--slope, -s `  |  `float number` |  Specific slope of a family.  |  Optional |
-|  `--family, -f`  |  `name_of_family`  |  The name of family of the sample and it is in the database  |  Optional if any slope are given and if the family sample is in database *Toute cette ligne-là est pas claire* |
+|  `--family, -f`  |  `name_of_family`  |  The name of family of the sample if it is in the database  |  Optional if any slope are given  |
+|  `--list_families`  |  present or not  |  Print all families which are treated by LocoGSE   |  Optional  |
+|  `--lineage`  |  `name_of_lineage`  |  The name of lineage of the sample if it is in the database  |  Optional if any slope or family are given  |
+|  `--list_lineages`  |  present or not  |  Print all lineages which are treated by LocoGSE   |  Optional  |
 | `--length_trim`  |  `int number`  |  Length (INT) of the sequence for the trimming  |  Optional (by default : 100) but not recommended if it is not for a new calibration |
-|  `--trim`  |  `chr`  |  Option to not trim fastq. Any character after `--trim` argument can work *Le mettre en store_true ce serait une bonne idée du coup je pense*  |  Optional  | 
+|  `--trim`  |  present or not  |  Option to not trim fastq. Any character after `--trim` argument can work  |  Optional  | 
 |  `--name_samples`  |  `TSV file`  |  A TSV with, in each line, the name of sample in the same line that in multi_files  |  Optional  | 
-|  `--pegasus`  |  `yes`  |  Option to write a pegasus script to process many files in parallel *Préciser que c'est que pour le mapping et que c'est à l'utilisateur de le lancer*  |  Optional  |
+|  `--pegasus`  |  `yes`  |  Option to write a pegasus script to process many files in parallel. It's only for the mapping step and the user must launch pegasus  |  Optional  |
 |  `--picog` |   `yes`  |  To convert the default unit default size (Mb) in picogram   |  Optional  |
 |  `--lgprot, -l`  |  `TSV file`  |  A tsv file with each protein (first column) and their length (second column)  |  Optional  |
 |  `--output, -o` |  `Name_of_output_directory`  |  A repository for the results  |  Optional. By default : results/   |
