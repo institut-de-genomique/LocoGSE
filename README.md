@@ -54,6 +54,6 @@ conda env create -f environment.yml
 
 This command maps each sample in merge_fasts.txt on the protein database with 4 cpus. After a filtering step, it searchs in the database the slope which is associated at Asteracea family. Moreover, it estimates the size of the genome sample in picogram and it cleans the output directory (output_dir) to keep only the list of deviant genes and the size.
 
-## For more information, please read the wiki *inclure le lien*
+## For more information, please read the [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/1.Home)
 
 
