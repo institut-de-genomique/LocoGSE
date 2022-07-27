@@ -145,11 +145,11 @@ if __name__ == "__main__":
 
     # Trimming
     optional_args.add_argument(
-        "--trim",
-        action="store",
+        "--no_trim",
+        action="store_true",
         dest="trim",
-        help="Activates the trimming step",
-        default="yes",
+        help="Desactivates the trimming step",
+        default=None,
         required=False,
     )
 
@@ -305,7 +305,7 @@ if __name__ == "__main__":
         sys.exit(-1)
 
     # Trimming step
-    if args.trim == "yes":
+    if not args.no_trim:
         multi_files = trimming.trimming_step(
             multi_files, args.length_sequence, args.threads
         )
