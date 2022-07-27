@@ -1,0 +1,11 @@
+name : LocoGSE
+channels:
+ - conda-forge
+ - bioconda
+ - anaconda
+dependencies:
+ - python=3.7.5
+ - diamond=2.0.14
+ - pandas=1.2.4
+ - cutadapt=4.1
+ - biopython=1.78
