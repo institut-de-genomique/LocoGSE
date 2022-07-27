@@ -16,7 +16,7 @@ import shutil
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         prog="LoCoGSe : Low Coverage Genome Size Estimation",
-        description="\n\n A Genome Size Estimation program. It is based on a linear relation between the depth and the genome size. A correction which depends of the family is added at this depth for a best prediction. \n For a question : https://github.com/institut-de-genomique/LocoGSE/issues or pierre.guenzi.tiberi@gmail.com",
+        description="\n\n A Genome Size Estimation program. It is based on a linear relation between the depth and the genome size. \n A correction which depends of the family is added at this depth for a best prediction. \n For a question : https://github.com/institut-de-genomique/LocoGSE/issues or pierre.guenzi.tiberi@gmail.com",
         formatter_class=argparse.RawTextHelpFormatter,
         add_help=True,
     )
@@ -263,10 +263,12 @@ if __name__ == "__main__":
     if args.slope == "":
         if args.family == "":
             if args.lineage == "":
-                print("No family or lineage given to --family or --lineage, defaulting to slope=1")
+                print(
+                    "No family or lineage given to --family or --lineage, defaulting to slope=1"
+                )
                 slope = 1
                 no_slope = True
-            else :
+            else:
                 slope = prediction.determine_slope_for_lineage(args.lineage)
                 no_slope = False
         else:
@@ -305,7 +307,7 @@ if __name__ == "__main__":
         sys.exit(-1)
 
     # Trimming step
-    if not args.no_trim :
+    if not args.no_trim:
         multi_files = trimming.trimming_step(
             multi_files, args.length_sequence, args.threads
         )
@@ -357,7 +359,9 @@ if __name__ == "__main__":
 
     if no_slope == True:
         print("\nA slope is needed to predict the genome sample size \n")
-        print("\n Please compute the slope as indicated in the wiki: https://github.com/institut-de-genomique/LocoGSE/wiki/2.Linear-regression \n")
+        print(
+            "\n Please compute the slope as indicated in the wiki: https://github.com/institut-de-genomique/LocoGSE/wiki/2.Linear-regression \n"
+        )
         sys.exit(-1)
 
     # Predicts sample size
