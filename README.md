@@ -5,15 +5,14 @@ Moreover, annotating genomes just to get some statistics about their theoric siz
 Here we propose a novel method based on a linear link between the average coverage for OneKp single copy genes, the family of a sample of interest and the sequencing depth.
 This link can be expressed like that :
 
-```math
-DEPTH = \beta *  averagecoverage  * 1 000 000 
-```
+
+$$ DEPTH = \beta *  averagecoverage  * 1 000 000 $$
 
 When the sequencing depth is known, the genome size can be estimated with:
 
-```math
-SIZE (in Mb) = \frac{totalofnucleotides}{\beta * averagecoverage * 1 000 000} 
-```
+
+$$ SIZE (in Mb) = \frac{totalofnucleotides}{\beta * averagecoverage * 1 000 000} $$
+
 
 ## Installation
 
