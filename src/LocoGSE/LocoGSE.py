@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-from lib import prediction
-from lib import mapping
-from lib import filtering
-from lib import checking
-from lib import trimming
-import pegasus
+from .lib import prediction
+from .lib import mapping
+from .lib import filtering
+from .lib import checking
+from .lib import trimming
+from .pegasus import writing_script
 import argparse
 import os
 import sys
@@ -13,7 +13,7 @@ import time
 import shutil
 
 
-if __name__ == "__main__":
+def run() :
     parser = argparse.ArgumentParser(
         prog="LoCoGSe : Low Coverage Genome Size Estimation",
         description="\n\n A Genome Size Estimation program. It is based on a linear relation between the depth and the genome size. \n A correction which depends of the family is added at this depth for a best prediction. \n For a question : https://github.com/institut-de-genomique/LocoGSE/issues or pierre.guenzi.tiberi@gmail.com",
@@ -244,7 +244,7 @@ if __name__ == "__main__":
     if args.ref == "":
         print("No argument given to --ref_prot, defaulting to the OneKP database")
         path_main = os.path.abspath(__file__)
-        args.ref = path_main.replace("main.py", "lib/OneKP.410genes.consensus")
+        args.ref = path_main.replace("LocoGSE.py", "OneKP.410genes.consensus")
     else:
         args.ref = os.path.abspath(args.ref)
 
@@ -301,7 +301,7 @@ if __name__ == "__main__":
 
     # Writing pegasus script
     if args.pegasus:
-        pegasus.writing_script(
+        writing_script(
             multi_files, args.threads, args.ref, name_samples, slope, actual_path
         )
         sys.exit(-1)
@@ -385,3 +385,6 @@ if __name__ == "__main__":
     print(
         f"\n Total running time : {float(time.perf_counter() - global_start)} seconds"
     )
+
+if __name__ == '__main__':
+    run()
