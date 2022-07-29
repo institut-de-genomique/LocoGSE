@@ -21,6 +21,7 @@ $$ SIZE (in Mb) = \frac{totalofnucleotides}{\beta * averagecoverage * 1 000 000}
 It is recommended to use conda environment to use LocoGSE.
 
 ```bash
+git clone git@github.com:institut-de-genomique/LocoGSE.git
 cd LocoGSE/
 conda env create -f environment.yml
 ```
