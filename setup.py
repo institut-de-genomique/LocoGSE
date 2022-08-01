@@ -26,7 +26,7 @@ setup(
         'LocoGSE.lib',
     },
     package_dir={
-        'LocoGSE': 'src/LocoGSE'
+        'LocoGSE': 'LocoGSE'
     },
     package_data={
         '': ['OneKP.410genes.consensus.dmnd'],
@@ -34,7 +34,7 @@ setup(
         '': ['lib/']
     },
     entry_points={
-        'console_scripts': ['LocoGSE=src.LocoGSE.LocoGSE:run'],
+        'console_scripts': ['LocoGSE=LocoGSE.LocoGSE:run'],
     },
     include_package_data=True,
     zip_safe=False,
