@@ -28,6 +28,7 @@ Or
 git clone https://github.com/institut-de-genomique/LocoGSE.git
 cd LocoGSE/
 conda env create -f environment.yml
+conda activate LocoGSE
 ```
 
 
