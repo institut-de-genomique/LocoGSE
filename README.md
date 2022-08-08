@@ -23,7 +23,7 @@ It is recommended to use conda environment to use LocoGSE.
 ```bash
 conda create -n "locogse" python=3.7.5
 ```
-
+Or
 ```bash
 git clone https://github.com/institut-de-genomique/LocoGSE.git
 cd LocoGSE/
