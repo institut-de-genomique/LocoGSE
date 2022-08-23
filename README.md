@@ -36,8 +36,8 @@ conda activate LocoGSE
 
 |  Option  |  Parameter(s)  |  Description  |  Requirement  |
 |---   |:-:   |:-:   |--:  |
-|  `--reads`  |  `fastq1 ....gz`  |  Input `fastq` file |  Required if there is no `--multi_files`argument |
-|  `--multi_files`  |  `multi_fastq.txt`  |  TXT file with, in each line, the path of files which are processed together (example in [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/4.LocoGSE-tutorial) ) |  Required if there is no `--reads`argument |
+|  `--reads`  |  `fastq1 ....gz`  |  Input `fastq` file |  Required if there is no `--list_fastq`argument |
+|  `--list_fastq`  |  `list_fastq.txt`  |  TXT file with, in each line, the path of files which are processed together (example in [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/4.LocoGSE-tutorial) ). The first column can be the name of the sample. |  Required if there is no `--reads`argument |
 |  `--ref_prot`  |  `ref_prot_name`  | the prefix of FA file with all reference proteins and a .dmmd  file for [DIAMOND](https://github.com/bbuchfink/diamond)  |  Required. By Default : `OneKpGenes database`  | 
 | `--recovery, -r`  | present or not |  Recovery option to continue a previous run after main steps  |  Optional  |
 | `--threads, -t`  |  `int number`  |  Number of cpus for the pipeline  |  Optional  |
@@ -48,7 +48,6 @@ conda activate LocoGSE
 |  `--list_lineages`  |  present or not  |  Print all lineages which are treated by LocoGSE   |  Optional  |
 | `--length_trim`  |  `int number`  |  Length (INT) of the sequence for the trimming  |  Optional (by default : 100) but not recommended if it is not for a new calibration |
 |  `--no_trim`  |  present or not  |  Option to not trim fastq. Any character after `--trim` argument can work  |  Optional  | 
-|  `--name_samples`  |  `TSV file`  |  A TSV with, in each line, the name of sample in the same line that in multi_files  |  Optional  | 
 |  `--pegasus`  |  `yes`  |  Option to write a pegasus script to process many files in parallel. It's only for the mapping step and the user must launch pegasus  |  Optional  |
 |  `--picog` |   `yes`  |  To convert the default unit default size (Mb) in picogram   |  Optional  |
 |  `--lgprot, -l`  |  `TSV file`  |  A tsv file with each protein (first column) and their length (second column)  |  Optional  |
