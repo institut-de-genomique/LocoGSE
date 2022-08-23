@@ -47,7 +47,7 @@ conda activate LocoGSE
 |  `--lineage`  |  `name_of_lineage`  |  The name of lineage of the sample if it is in the database  |  Optional if any slope or family are given  |
 |  `--list_lineages`  |  present or not  |  Print all lineages which are treated by LocoGSE   |  Optional  |
 | `--length_trim`  |  `int number`  |  Length (INT) of the sequence for the trimming  |  Optional (by default : 100) but not recommended if it is not for a new calibration |
-|  `--no_trim`  |  present or not  |  Option to not trim fastq. Any character after `--trim` argument can work  |  Optional  | 
+|  `--no_trim`  |  present or not  |  Option to not trim fastq. Any character after `--no_trim` argument can work  |  Optional  | 
 |  `--pegasus`  |  `yes`  |  Option to write a pegasus script to process many files in parallel. It's only for the mapping step and the user must launch pegasus  |  Optional  |
 |  `--picog` |   `yes`  |  To convert the default unit default size (Mb) in picogram   |  Optional  |
 |  `--lgprot, -l`  |  `TSV file`  |  A tsv file with each protein (first column) and their length (second column)  |  Optional  |
