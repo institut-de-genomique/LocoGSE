@@ -14,12 +14,13 @@ Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
 Classifier: License :: OSI Approved :: CEA CNRS Inria Logiciel Libre License, version 2.1 (CeCILL-2.1)
 Classifier: Programming Language :: Python :: 3.7.5
 Description-Content-Type: text/markdown
+License-File: LICENSE.md
 
-# Genome size estimation based on single-copy genes coverage
+# LocoGSE : Low coverage based Genome Size Estimator
 
-Many pipelines or algorithms can estimate the size of a genome. However, they are often based on kmers-method and need an annotated genome to estimate its size, which is not always alvailable. 
-Moreover, annotating genomes just to get some statistics about their theoric size is not very time-efficient, as the annotation process can be complicated and/or time-consuming.
-Here we propose a novel method based on a linear link between the average coverage for OneKp single copy genes, the family of a sample of interest and the sequencing depth.
+Many pipelines or algorithms can estimate the size of a genome. owever, they are either based on kmers, a method that requires high sequencing depth (>20X) or mapping on an assembly, which is not always alvailable.   
+Moreover, assembling and annotating genomes just to get some statistics about their theoric size is not very time-efficient.  
+Here we propose a novel method based on mapping of reads on single copy genes , that is linearily related to the sequencing depth.  
 This link can be expressed like that :
 
 
@@ -38,6 +39,11 @@ $$ SIZE (in Mb) = \frac{totalofnucleotides}{\beta * averagecoverage * 1 000 000}
 It is recommended to use conda environment to use LocoGSE.
 
 ```bash
+conda create -n "locogse" python=3.7.5
+```
+
+```bash
+git clone https://github.com/institut-de-genomique/LocoGSE.git
 cd LocoGSE/
 conda env create -f environment.yml
 ```
@@ -58,7 +64,7 @@ conda env create -f environment.yml
 |  `--lineage`  |  `name_of_lineage`  |  The name of lineage of the sample if it is in the database  |  Optional if any slope or family are given  |
 |  `--list_lineages`  |  present or not  |  Print all lineages which are treated by LocoGSE   |  Optional  |
 | `--length_trim`  |  `int number`  |  Length (INT) of the sequence for the trimming  |  Optional (by default : 100) but not recommended if it is not for a new calibration |
-|  `--trim`  |  present or not  |  Option to not trim fastq. Any character after `--trim` argument can work  |  Optional  | 
+|  `--no_trim`  |  present or not  |  Option to not trim fastq. Any character after `--trim` argument can work  |  Optional  | 
 |  `--name_samples`  |  `TSV file`  |  A TSV with, in each line, the name of sample in the same line that in multi_files  |  Optional  | 
 |  `--pegasus`  |  `yes`  |  Option to write a pegasus script to process many files in parallel. It's only for the mapping step and the user must launch pegasus  |  Optional  |
 |  `--picog` |   `yes`  |  To convert the default unit default size (Mb) in picogram   |  Optional  |
@@ -69,9 +75,9 @@ conda env create -f environment.yml
 
 ## An example
 
-`python3 pipeline/main.py --multi_files merge_fastq.txt --ref_prot database --output output_dir/ -l name_prot_length.tsv -f Asteraceae --threads 4 --picog yes --cleaning_output yes `
+`LocoGSE --multi_files merge_fastq.txt --ref_prot database --output output_dir/ -l name_prot_length.tsv -f Asteraceae --threads 4 --picog yes --cleaning_output yes `
 
-This command maps each sample in merge_fasts.txt on the protein database with 4 cpus. After a filtering step, it searchs in the database the slope which is associated at Asteracea family. Moreover, it estimates the size of the genome sample in picogram and it cleans the output directory (output_dir) to keep only the list of deviant genes and the size.
+With this command, LocoGSE maps each sample in merge_fasts.txt on the protein database with 4 cpus. After a filtering step, it searchs in the database the slope which is associated at Asteracea family. Moreover, it estimates the size of the genome sample in picogram and it cleans the output directory (output_dir) to keep only the list of deviant genes and the size.
 
 ## For more information, please read the [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/1.Home)
 

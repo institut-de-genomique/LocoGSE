@@ -15,8 +15,8 @@ import shutil
 
 def run() :
     parser = argparse.ArgumentParser(
-        prog="LoCoGSe : Low Coverage Genome Size Estimation",
-        description="\n\n A Genome Size Estimation program. It is based on a linear relation between the depth and the genome size. \n A correction which depends of the family is added at this depth for a best prediction. \n For a question : https://github.com/institut-de-genomique/LocoGSE/issues or pierre.guenzi.tiberi@gmail.com",
+        prog="LocoGSE : Low coverage Genome Size Estimator",
+        description="\n\n A Genome Size Estimation program. It is based on a linear relation between the sequencing depth (linked to the genome size) and the depth on a set of monocopy genes. \n The regression factor (slope) depends of the plant family/lineage : slopes are precomputed for a number of plant families. \n For questions : https://github.com/institut-de-genomique/LocoGSE/issues or pierre.guenzi.tiberi@gmail.com or fdenoeud@genoscope.cns.fr",
         formatter_class=argparse.RawTextHelpFormatter,
         add_help=True,
     )
@@ -25,7 +25,7 @@ def run() :
 
     # Mandatory arguments
 
-    # Fastq files with reads
+    # Fastq file (short reads)
     mandatory_args.add_argument(
         "--reads",
         action="store",
@@ -41,16 +41,16 @@ def run() :
         "--ref_prot",
         action="store",
         dest="ref",
-        help="Path to a protein database to be used with diamond (the directory must contain a .fa file and a .dmnd file). The prefix of these 2 files must be given. By default : OneKP consensus for the plants",
+        help="Path to a monocopy protein database to be used with diamond (the directory must contain a .fa file and a .dmnd file). The prefix of these 2 files must be given. By default : OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments ! Caution: the option --lgprot needs to be provided too!",
         default="",
         required=False,
     )
-    # Multiple files
+    # Multiple files = list of absolute paths to several fastq files (if you put several files on one line they will be treated together: for instance read1.fastq and read2.fastq)
     mandatory_args.add_argument(
-        "--multi_files",
+        "--list_fastq",
         action="store",
-        dest="multi_files",
-        help="txt file with, in each line, each path file for the same sample",
+        dest="list_fastq",
+        help="txt file with, on each line, the list of fastq files to be treated together (same sample)(for example: name_sample mypath/read1.fastq mypath/read2.fastq)" ,
         default="",
         required=False,
     )
@@ -65,7 +65,7 @@ def run() :
         "-r",
         action="store_true",
         dest="recovery",
-        help="Recovery option to continue a previous run after main steps",
+        help="Recovery option to continue the run started in the output directory provided !",
         default=None,
         required=False,
     )
@@ -76,7 +76,7 @@ def run() :
         "-t",
         action="store",
         dest="threads",
-        help="Number of steps to be used during the mapping step",
+        help="Number of threads to be used during the mapping step",
         default=1,
         required=False,
     )
@@ -87,7 +87,7 @@ def run() :
         "-s",
         action="store",
         dest="slope",
-        help="A slope which can be take to estimate the genome size. It is specific to each family",
+        help="Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in --list_families and lineages in --list_lineagges : no need to provide a slope if your species is in the list, you can just provide either the family or the lineage", 
         default="",
         required=False,
     )
@@ -98,7 +98,7 @@ def run() :
         "-f",
         action="store",
         dest="family",
-        help="Some families are in the database with this program. Specify the family of the sample.",
+        help="Specify the plant family in order to use a pre-computed slope",
         default="",
         required=False,
     )
@@ -108,7 +108,7 @@ def run() :
         "--list_families",
         action="store_true",
         dest="list_families",
-        help="Print all families which are treated by LocoGSE",
+        help="Print all families with available pre-computed slope",
         default=None,
         required=False,
     )
@@ -118,7 +118,7 @@ def run() :
         "--lineage",
         action="store",
         dest="lineage",
-        help="Some lineages are in the database with this program. Specify the lineage of the sample.",
+        help="Specify the plant lineage in order to use a pre-computed slope",
         default="",
         required=False,
     )
@@ -128,7 +128,7 @@ def run() :
         "--list_lineages",
         action="store_true",
         dest="list_lineages",
-        help="Print all lineages which are treated by LocoGSE",
+        help="Print all plant lineages with available pre-computed slope",
         default=None,
         required=False,
     )
@@ -138,7 +138,7 @@ def run() :
         "--length_trim",
         action="store",
         dest="length_sequence",
-        help="Length (INT) of the sequence after cutting step (by default : 100)",
+        help="Cumulative length of all sequences treated after trimming step (by default : 100 # Highly recommended since the training step was performed with 100nt reads !)",
         default="100",
         required=False,
     )
@@ -148,18 +148,8 @@ def run() :
         "--no_trim",
         action="store_true",
         dest="no_trim",
-        help="Desactivates the trimming step",
+        help="Desactivates the trimming step (only if your reads are 100 nt long. Otherwise, highly recommended since the training step was performed with 100nt reads!)",
         default=None,
-        required=False,
-    )
-
-    # Name of sample
-    optional_args.add_argument(
-        "--name_samples",
-        action="store",
-        dest="name_samples",
-        help="A TSV with, in each line, the name of sample in the same line that in multi_files",
-        default="",
         required=False,
     )
 
@@ -168,18 +158,18 @@ def run() :
         "--picog",
         action="store",
         dest="picog",
-        help="An option to convert genome size in picogram (in MB by default)",
+        help="An option to convert genome size to picograms (in MB by default)",
         default="n",
         required=False,
     )
 
-    # Size of each reference protein
+    # Size of each reference protein, if the user provides another protein set (not OneKp)
     optional_args.add_argument(
         "--lgprot",
         "-l",
         action="store",
         dest="lgprot",
-        help="A TSV file with each protein name(1st column) and its length(2nd column)",
+        help="A TSV file with each protein name(1st column) and its length(2nd column) in aa, if the protein database specified is not OneKp (default)",
         default="",
         required=False,
     )
@@ -228,17 +218,17 @@ def run() :
     # Loading samples
     name_reads = []
     number_nt_list = []
-    multi_files = []
+    list_fastq = []
     if args.reads == "":
-        if args.multi_files != "":
-            number_nt_list, multi_files = checking.complete_multi_files(
-                args.multi_files
+        if args.list_fastq != "":
+            number_nt_list, list_fastq, name_samples = checking.complete_multi_files(
+                args.list_fastq
             )
         else:
-            print("Please provide samples with either --reads or --multi_files.")
+            print("Please provide samples with either --reads or --list_fastq.")
             sys.exit(-1)
     else:
-        number_nt_list, multi_files = checking.complete_single_files(args.reads)
+        number_nt_list, list_fastq, name_samples = checking.complete_single_files(args.reads)
 
     # Checking
     if args.ref == "":
@@ -264,7 +254,7 @@ def run() :
         if args.family == "":
             if args.lineage == "":
                 print(
-                    "No family or lineage given to --family or --lineage, defaulting to slope=1"
+                    "Warning: No family or lineage given to --family or --lineage, defaulting to slope=1. List of families and lineages pre-computed are available with --list_families and --list_lineages "
                 )
                 slope = 1
                 no_slope = True
@@ -278,16 +268,6 @@ def run() :
         slope = args.slope
         no_slope = False
 
-    if args.name_samples != "":
-        file_name = open(os.path.abspath(args.name_samples), "r")
-        lines_names = file_name.readlines()
-        file_name.close()
-        name_samples = []
-        for line in range(0, len(lines_names)):
-            name_samples.append(lines_names[line][0 : len(lines_names[line]) - 1])
-    else:
-        name_samples = ["Any names"]
-
     actual_path = os.getcwd()
     os.chdir(args.output_dir)
     global_start = time.perf_counter()
@@ -296,34 +276,33 @@ def run() :
     mapping_step_finished = checking.checking_step_recovery_mapping()
     counting_nucleotides = checking.checking_step_recovery_computing_nbnt()
     checking.checking_step(args.ref, slope, mapping_step_finished, args.length_sequence)
-    name_samples = checking.checking_number_name_samples(name_samples, multi_files)
     slope = float(slope)
 
-    # Writing pegasus script
+    # Write pegasus script
     if args.pegasus:
         writing_script(
-            multi_files, args.threads, args.ref, name_samples, slope, actual_path
+            list_fastq, args.threads, args.ref, name_samples, slope, actual_path
         )
         sys.exit(-1)
 
     # Trimming step
     if not args.no_trim:
-        multi_files = trimming.trimming_step(
-            multi_files, args.length_sequence, args.threads
+        list_fastq = trimming.trimming_step(
+            list_fastq, args.length_sequence, args.threads
         )
     else:
         # No trimming
         print("Any trimming")
 
-    # Mapping reads on protein
+    # Map reads on protein
     diamond_df_list = []
     if mapping_step_finished != True:
         diamond_df_list = mapping.mapping_multi_files(
-            multi_files, args.ref, args.threads, name_samples
+            list_fastq, args.ref, args.threads, name_samples
         )
     else:
         diamond_df_list = mapping.recovery_mapping_step(
-            multi_files, args.ref, args.threads, name_samples
+            list_fastq, args.ref, args.threads, name_samples
         )
 
     # Find one best hit per read in diamond DataFrame
@@ -336,31 +315,32 @@ def run() :
         filtering.computing_length_prot_database(args.ref)
         lgprot_path = "ref_prot_length/ref_prot.tsv"
 
-    # Find deviants genes and outliers and creating of a filtered file
+    # Find outlier genes and create a file after removing the outliers
 
     filtering.filter_sample(lgprot_path, besthit)
 
-    # Compute the number of nucleotides in each FASTQ Files
+    # Compute the number of nucleotides in each FASTQ File (or list of files)
     dic_length_glob = {}
     if counting_nucleotides == True:
         dic_length_glob = prediction.recovery_number_nucleotides(
-            diamond_df_list, multi_files
+            diamond_df_list, list_fastq
         )
         prediction.writing_input_files_with_number_nucleotides(
-            multi_files, dic_length_glob
+            list_fastq, dic_length_glob
         )
     else:
         dic_length_glob = prediction.computing_number_nucleotides_multi_readsets(
-            diamond_df_list, multi_files, number_nt_list
+            diamond_df_list, list_fastq, number_nt_list
         )
         prediction.writing_input_files_with_number_nucleotides(
-            multi_files, dic_length_glob
+            list_fastq, dic_length_glob
         )
 
     if no_slope == True:
+        print(f"The depth can be found in {args.output_dir}filtered_sample/df_with_sample_and_coverage.tsv")
         print("\nA slope is needed to predict the genome sample size \n")
         print(
-            "\n Please compute the slope as indicated in the wiki: https://github.com/institut-de-genomique/LocoGSE/wiki/2.Linear-regression \n"
+            "\n Please provide a family or lineage in order to use a pre-computed slope or calculate a slope as indicated in the wiki: https://github.com/institut-de-genomique/LocoGSE/wiki/2.Linear-regression \n"
         )
         sys.exit(-1)
 
@@ -381,7 +361,8 @@ def run() :
         shutil.rmtree("Sample_mapped", ignore_errors=True)
 
     # END
-    print(f"\n Results can be found in {args.output_dir}")
+    print(f"The depth can be found in {args.output_dir}filtered_sample/df_with_sample_and_coverage.tsv")
+    print(f"\n Results can be found in {args.output_dir}Sample_Size/samples_sizes.tsv")
     print(
         f"\n Total running time : {float(time.perf_counter() - global_start)} seconds"
     )

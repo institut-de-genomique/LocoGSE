@@ -105,49 +105,38 @@ def checking_step_recovery_computing_nbnt() -> bool:
         counting_nucleotides = False
     return counting_nucleotides
 
-
-def checking_number_name_samples(name_samples: list, multi_files: list) -> list:
-    if name_samples[0] == "Any names":
-        name_samples.clear()
-        for specie in range(0, len(multi_files)):
-            name_samples.append("input_" + str(specie))
-        return name_samples
-    if len(name_samples) < len(multi_files):
-        for x in range(0, len(multi_files) - len(name_samples)):
-            name_samples.append("input_" + str(x))
-        return name_samples
-    elif len(name_samples) > len(multi_files):
-        reducted_name_samples = name_samples[0 : len(multi_files) - len(name_samples)]
-        return reducted_name_samples
-    else:
-        return name_samples
-
-
 def complete_multi_files(multi_files_a: str) -> tuple:
     final_multi_files = []
     final_number_nt_list = []
+    final_name_samples_list = []
     multi = open(os.path.abspath(multi_files_a), "r")
     lines_multi = multi.readlines()
     multi.close()
     for line in range(0, len(lines_multi)):
         list_line = lines_multi[line].split()
+        if not list_line[0].endswith(".gz") or not list_line[0].endswith(".fq") or not list_line[0].endswith(".fastq") :
+             final_name_samples_list.append(list_line[0])
+        else:
+            final_name_samples_list.append("input_"+str(line))
         if list_line[-1].isnumeric():
             final_number_nt_list.append(int(list_line[-1]))
-            final_multi_files.append(list_line[0 : len(list_line) - 1])
+            final_multi_files.append(list_line[1 : len(list_line) - 1])
         else:
             final_number_nt_list.append("No_number")
-            final_multi_files.append(list_line)
-    return final_number_nt_list, final_multi_files
+            final_multi_files.append(list_line[1 : len(list_line)])
+    return final_number_nt_list, final_multi_files, final_name_samples_list
 
 
 def complete_single_files(reads: list) -> list:
     multi_files = []
+    name_samples = []
     number_nt_list = []
     for read in range(0, len(reads)):
         multi_files.append(list(""))
         multi_files[read].append(reads[read])
         number_nt_list.append("No_number")
-    return number_nt_list, multi_files
+        name_samples.append("input_"+str(read))
+    return number_nt_list, multi_files, name_samples
 
 def list_families_print():
     path_module = os.path.abspath(__file__)
