@@ -47,13 +47,13 @@ conda activate LocoGSE
 |  `--list_families`  |  present or not  |  Print all families with available pre-computed slope   |  Optional  |
 |  `--lineage`  |  `name_of_lineage`  |  Specify the plant lineage in order to use a pre-computed slope  |  Optional if any slope or family are given  |
 |  `--list_lineages`  |  present or not  |  Print all plant lineages with available pre-computed slope   |  Optional  |
-| `--length_trim`  |  `int number`  |  Length (INT) of the sequence for the trimming  |  Optional (by default : 100) but not recommended if it is not for a new calibration |
-|  `--no_trim`  |  present or not  |  Option to not trim fastq. Any character after `--no_trim` argument can work  |  Optional  | 
-|  `--pegasus`  |  `yes`  |  Option to write a pegasus script to process many files in parallel. It's only for the mapping step and the user must launch pegasus  |  Optional  |
-|  `--picog` |   `yes`  |  To convert the default unit default size (Mb) in picogram   |  Optional  |
-|  `--lgprot, -l`  |  `TSV file`  |  A tsv file with each protein (first column) and their length (second column)  |  Optional  |
+| `--length_trim`  |  `int number`  |  Length (INT) to trim the sequences to  |  Optional (by default : 100 , highly recommended since the training step was performed with 100nt reads !) |
+|  `--no_trim`  |  present or not  |  Desactivates the trimming step  |  Optional  | 
+|  `--pegasus`  |  `yes`  |  Option to write a Pegasus script that can be manually launched to submit multiple mapping commands at the same time  |  Optional  |
+|  `--picog` |   `yes`  |  To convert the default unit default size (Mb) to picograms   |  Optional  |
+|  `--lgprot, -l`  |  `TSV file`  |  A tsv file with each protein (first column) and their length (second column)  |  Optional : if not provided, they will be computed  |
 |  `--output, -o` |  `Name_of_output_directory`  |  A repository for the results  |  Optional. By default : results/   |
-|  `--cleaning_output`  |  `yes`  |  A option to have only the deviant genes and the size of genome of your sample  |  Optional  |
+|  `--cleaning_output`  |  `yes`  |  Remove temporary files and only keep results : list of deviant genes, depth on monocopy gene set, and estimated genome size  |  Optional  |
 
 
 ## An example
