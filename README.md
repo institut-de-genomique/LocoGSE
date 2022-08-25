@@ -39,7 +39,7 @@ conda activate LocoGSE
 |---   |:-:   |:-:   |--:  |
 |  `--reads`  |  `fastq1 ....gz`  |  Input `fastq` file |  Required if there is no `--list_fastq`argument |
 |  `--list_fastq`  |  `list_fastq.txt`  |  txt file with, on each line, the list of fastq files to be treated together (same sample, see [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/4.LocoGSE-tutorial) . The first column can be the name of the sample. |  Required if there is no `--reads`argument |
-|  `--ref_prot`  |  `ref_prot_name`  | Path to a monocopy protein database to be used with diamond [DIAMOND](https://github.com/bbuchfink/diamond). The prefix of these 2 files must be given.  |  Required. By Default : OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments  | 
+|  `--ref_prot`  |  `ref_prot_name`  | Path to a monocopy protein database to be used with [DIAMOND](https://github.com/bbuchfink/diamond). The prefix of these 2 files must be given.  |  Required. By Default : OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments  | 
 | `--recovery, -r`  | present or not |  Recovery option to continue the run started in the output directory provided   |  Optional  |
 | `--threads, -t`  |  `int number`  |  Number of CPUs to be used during the mapping step  |  Optional  |
 |  `--slope, -s `  |  `float number` |  Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in --list_families and lineages in --list_lineages : no need to provide a slope if your species is in the list, you can just provide either the family or the lineage.  |  Optional |
