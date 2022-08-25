@@ -40,13 +40,13 @@ conda activate LocoGSE
 |  `--reads`  |  `fastq1 ....gz`  |  Input `fastq` file |  Required if there is no `--list_fastq`argument |
 |  `--list_fastq`  |  `list_fastq.txt`  |  txt file with, on each line, the list of fastq files to be treated together (same sample) (for example: mypath/read1.fastq mypath/read2.fastq, see [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/4.LocoGSE-tutorial) ). The first column can be the name of the sample. |  Required if there is no `--reads`argument |
 |  `--ref_prot`  |  `ref_prot_name`  | the prefix of FA file with all reference proteins and a .dmmd  file for [DIAMOND](https://github.com/bbuchfink/diamond)  |  Required. By Default : `OneKpGenes database`  | 
-| `--recovery, -r`  | present or not |  Recovery option to continue a previous run after main steps  |  Optional  |
-| `--threads, -t`  |  `int number`  |  Number of cpus for the pipeline  |  Optional  |
-|  `--slope, -s `  |  `float number` |  Specific slope of a family.  |  Optional |
-|  `--family, -f`  |  `name_of_family`  |  The name of family of the sample if it is in the database  |  Optional if any slope are given  |
-|  `--list_families`  |  present or not  |  Print all families which are treated by LocoGSE   |  Optional  |
-|  `--lineage`  |  `name_of_lineage`  |  The name of lineage of the sample if it is in the database  |  Optional if any slope or family are given  |
-|  `--list_lineages`  |  present or not  |  Print all lineages which are treated by LocoGSE   |  Optional  |
+| `--recovery, -r`  | present or not |  Recovery option to continue the run started in the output directory provided   |  Optional  |
+| `--threads, -t`  |  `int number`  |  Number of CPUs to be used during the mapping step  |  Optional  |
+|  `--slope, -s `  |  `float number` |  Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in --list_families and lineages in --list_lineages : no need to provide a slope if your species is in the list, you can just provide either the family or the lineage.  |  Optional |
+|  `--family, -f`  |  `name_of_family`  |  Specify the plant family in order to use a pre-computed slope  |  Optional if any slope are given  |
+|  `--list_families`  |  present or not  |  Print all families with available pre-computed slope   |  Optional  |
+|  `--lineage`  |  `name_of_lineage`  |  Specify the plant lineage in order to use a pre-computed slope  |  Optional if any slope or family are given  |
+|  `--list_lineages`  |  present or not  |  Print all plant lineages with available pre-computed slope   |  Optional  |
 | `--length_trim`  |  `int number`  |  Length (INT) of the sequence for the trimming  |  Optional (by default : 100) but not recommended if it is not for a new calibration |
 |  `--no_trim`  |  present or not  |  Option to not trim fastq. Any character after `--no_trim` argument can work  |  Optional  | 
 |  `--pegasus`  |  `yes`  |  Option to write a pegasus script to process many files in parallel. It's only for the mapping step and the user must launch pegasus  |  Optional  |
