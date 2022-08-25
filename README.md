@@ -1,8 +1,9 @@
 # LocoGSE : Low coverage based Genome Size Estimator
 
-Many pipelines or algorithms can estimate the size of a genome. owever, they are either based on kmers, a method that requires high sequencing depth (>20X) or mapping on an assembly, which is not always alvailable.   
+Many pipelines or algorithms can estimate the size of a genome. However, they are either based on kmers, a method that requires high sequencing depth (>20X) or mapping on an assembly, which is not always available.   
 Moreover, assembling and annotating genomes just to get some statistics about their theoric size is not very time-efficient.  
-Here we propose a novel method based on mapping of reads on single copy genes , that is linearily related to the sequencing depth.  
+Here we propose a novel method (calibrated for most Angiosperm lineages) based on mapping of reads on single copy genes, that is linearily related to the sequencing depth.  
+
 This link can be expressed like that :
 
 
@@ -37,7 +38,7 @@ conda activate LocoGSE
 |  Option  |  Parameter(s)  |  Description  |  Requirement  |
 |---   |:-:   |:-:   |--:  |
 |  `--reads`  |  `fastq1 ....gz`  |  Input `fastq` file |  Required if there is no `--list_fastq`argument |
-|  `--list_fastq`  |  `list_fastq.txt`  |  TXT file with, in each line, the path of files which are processed together (example in [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/4.LocoGSE-tutorial) ). The first column can be the name of the sample. |  Required if there is no `--reads`argument |
+|  `--list_fastq`  |  `list_fastq.txt`  |  txt file with, on each line, the list of fastq files to be treated together (same sample) (for example: mypath/read1.fastq mypath/read2.fastq, see [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/4.LocoGSE-tutorial) ). The first column can be the name of the sample. |  Required if there is no `--reads`argument |
 |  `--ref_prot`  |  `ref_prot_name`  | the prefix of FA file with all reference proteins and a .dmmd  file for [DIAMOND](https://github.com/bbuchfink/diamond)  |  Required. By Default : `OneKpGenes database`  | 
 | `--recovery, -r`  | present or not |  Recovery option to continue a previous run after main steps  |  Optional  |
 | `--threads, -t`  |  `int number`  |  Number of cpus for the pipeline  |  Optional  |
@@ -59,7 +60,7 @@ conda activate LocoGSE
 
 `LocoGSE --multi_files merge_fastq.txt --ref_prot database --output output_dir/ -l name_prot_length.tsv -f Asteraceae --threads 4 --picog yes --cleaning_output yes `
 
-With this command, LocoGSE maps each sample in merge_fasts.txt on the protein database with 4 cpus. After a filtering step, it searchs in the database the slope which is associated at Asteracea family. Moreover, it estimates the size of the genome sample in picogram and it cleans the output directory (output_dir) to keep only the list of deviant genes and the size.
+With this command, LocoGSE maps each sample in merge_fasts.txt on the protein database with 4 cpus. After a filtering step, it searches in the database the slope which is associated at Asteracea family. Moreover, it estimates the size of the genome sample in picogram and it cleans the output directory (output_dir) to keep only the list of deviant genes and the size.
 
 ## For more information, please read the [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/1.Home)
 
