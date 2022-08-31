@@ -7,12 +7,12 @@ Here we propose a novel method (calibrated for most Angiosperm lineages) based o
 This link can be expressed like that :
 
 
-$$ DEPTH = \beta *  averagecoverage  * 1 000 000 $$
+$$ DEPTH = \beta *  average~coverage  * 1 000 000 $$
 
 When the sequencing depth is known, the genome size can be estimated with:
 
 
-$$ SIZE (in Mb) = \frac{totalofnucleotides}{\beta * averagecoverage * 1 000 000} $$
+$$ SIZE (~in~Mb) = \frac{total~of~nucleotides}{\beta * average~coverage * 1 000 000} $$
 
 
 ## Installation
