@@ -356,7 +356,6 @@ def run() :
     if args.clean != "n":
         shutil.rmtree("best_hit_per_read")
         shutil.rmtree("cmds")
-        shutil.rmtree("filtered_sample")
         shutil.rmtree("ref_prot_length")
         shutil.rmtree("Sample_mapped", ignore_errors=True)
 
