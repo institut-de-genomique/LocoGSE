@@ -41,7 +41,7 @@ def run() :
         "--ref_prot",
         action="store",
         dest="ref",
-        help="Path to a monocopy protein database to be used with diamond (the directory must contain a .fa file and a .dmnd file). The prefix of these 2 files must be given. By default : OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments ! Caution: the option --lgprot needs to be provided too!",
+        help="Path to a monocopy protein database to be used with diamond (the directory must contain a .fa file and a .dmnd file). The PREFIX (file name without the extension) of these 2 files must be given. By default : OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments ! Caution: the option --lgprot needs to be provided too!",
         default="",
         required=False,
     )
@@ -169,7 +169,7 @@ def run() :
         "-l",
         action="store",
         dest="lgprot",
-        help="A TSV file with each protein name(1st column) and its length(2nd column) in aa, if the protein database specified is not OneKp (default)",
+        help="A tabulated file with each protein name(1st column) and its length(2nd column) in aa, if the protein database specified is not OneKp (default)",
         default="",
         required=False,
     )
@@ -243,7 +243,7 @@ def run() :
             os.mkdir(args.output_dir)
         except:
             print(
-                f"\n Output directory {args.output_dir} can not be created, please erase it before launching the programm !"
+                f"\n Output directory {args.output_dir} can not be created, please erase it before launching the program !"
             )
             sys.exit(1)
 
