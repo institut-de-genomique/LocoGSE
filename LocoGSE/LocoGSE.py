@@ -16,7 +16,7 @@ import shutil
 def run() :
     parser = argparse.ArgumentParser(
         prog="LocoGSE : Low coverage Genome Size Estimator",
-        description="\n\n A Genome Size Estimation program. It is based on a linear relation between the sequencing depth (linked to the genome size) and the depth on a set of monocopy genes. \n The regression factor (slope) depends of the plant family/lineage : slopes are precomputed for a number of plant families. \n For questions : https://github.com/institut-de-genomique/LocoGSE/issues or pierre.guenzi.tiberi@gmail.com or fdenoeud@genoscope.cns.fr",
+        description="\n\n A Genome Size Estimation program. It is based on a linear relation between the sequencing depth (linked to the genome size) and the depth of mapping short reads on a set of monocopy genes. \n The regression factor (slope) depends of the plant family/lineage : slopes are precomputed for a number of plant families. \n For questions : https://github.com/institut-de-genomique/LocoGSE/issues or pierre.guenzi.tiberi@gmail.com or fdenoeud@genoscope.cns.fr",
         formatter_class=argparse.RawTextHelpFormatter,
         add_help=True,
     )
@@ -41,11 +41,11 @@ def run() :
         "--ref_prot",
         action="store",
         dest="ref",
-        help="Path to a monocopy protein database to be used with diamond (the directory must contain a .fa file and a .dmnd file). The PREFIX (file name without the extension) of these 2 files must be given. By default : OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments ! Caution: the option --lgprot needs to be provided too!",
+        help="Path to a monocopy protein database to be used with diamond (the directory must contain a .fa file and a .dmnd file). The prefix of these 2 files must be given. By default : OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments ! Caution: the option --lgprot needs to be provided too!",
         default="",
         required=False,
     )
-    # Multiple files = list of absolute paths to several fastq files (if you put several files on one line they will be treated together: for instance read1.fastq and read2.fastq)
+    # Multiple files : listfastq = list of absolute paths to several fastq files (if you put several files on one line they will be treated together: for instance read1.fastq and read2.fastq)
     mandatory_args.add_argument(
         "--list_fastq",
         action="store",
@@ -65,7 +65,7 @@ def run() :
         "-r",
         action="store_true",
         dest="recovery",
-        help="Recovery option to continue the run started in the output directory provided !",
+        help="Recovery option to continue the run started in the output directory provided",
         default=None,
         required=False,
     )
@@ -108,7 +108,7 @@ def run() :
         "--list_families",
         action="store_true",
         dest="list_families",
-        help="Print all families with available pre-computed slope",
+        help="Prints all families with available pre-computed slope",
         default=None,
         required=False,
     )
@@ -128,7 +128,7 @@ def run() :
         "--list_lineages",
         action="store_true",
         dest="list_lineages",
-        help="Print all plant lineages with available pre-computed slope",
+        help="Prints all plant lineages with available pre-computed slope",
         default=None,
         required=False,
     )
@@ -138,7 +138,7 @@ def run() :
         "--length_trim",
         action="store",
         dest="length_sequence",
-        help="Cumulative length of all sequences treated after trimming step (by default : 100 # Highly recommended since the training step was performed with 100nt reads !)",
+        help="Cumulative length of all sequences treated after the trimming step (by default : 100 # Highly recommended since the training step was performed with 100nt reads !)",
         default="100",
         required=False,
     )
@@ -158,7 +158,7 @@ def run() :
         "--picog",
         action="store",
         dest="picog",
-        help="An option to convert genome size to picograms (in MB by default)",
+        help="Option to convert genome size to picograms (in MB by default)",
         default="n",
         required=False,
     )
@@ -169,7 +169,7 @@ def run() :
         "-l",
         action="store",
         dest="lgprot",
-        help="A tabulated file with each protein name(1st column) and its length(2nd column) in aa, if the protein database specified is not OneKp (default)",
+        help="A TSV file with each protein name(1st column) and its length(2nd column) in aa, if the protein database specified is not OneKp (default)",
         default="",
         required=False,
     )
@@ -243,7 +243,7 @@ def run() :
             os.mkdir(args.output_dir)
         except:
             print(
-                f"\n Output directory {args.output_dir} can not be created, please erase it before launching the program !"
+                f"\n Output directory {args.output_dir} can not be created, please erase it before launching the programm !"
             )
             sys.exit(1)
 
@@ -361,7 +361,7 @@ def run() :
 
     # END
     print(f"The depth can be found in {args.output_dir}filtered_sample/df_with_sample_and_coverage.tsv")
-    print(f"\n Results can be found in {args.output_dir}Sample_Size/samples_sizes.tsv")
+    print(f"\nGenome size prediction(s) can be found in {args.output_dir}Sample_Size/samples_sizes.tsv")
     print(
         f"\n Total running time : {float(time.perf_counter() - global_start)} seconds"
     )
