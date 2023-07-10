@@ -32,7 +32,7 @@ conda activate LocoGSE
 ## Arguments
 
 |  Option  |  Parameter(s)  |  Description  |  Requirement  |
-|---   |:-:   |:-:   |--:  |
+|---   |:-:   |:-:   |:-:  |
 |  `--reads`  |  `fastq1 ....gz`  |  Input `fastq` file |  Required if there is no `--list_fastq`argument |
 |  `--list_fastq`  |  `list_fastq.txt`  |  txt file with, on each line, the list of fastq files to be treated together (same sample, see [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/4.LocoGSE-tutorial) . The first column can be the name of the sample. |  Required if there is no `--reads`argument |
 |  `--ref_prot`  |  `ref_prot_name`  | Path to a monocopy protein database to be used with [DIAMOND](https://github.com/bbuchfink/diamond). The prefix of these 2 files must be given.  |  Required. By Default : OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments  | 
