@@ -58,6 +58,6 @@ conda activate LocoGSE
 
 With this command, LocoGSE maps each sample in merge_fasts.txt on the protein database with 4 cpus. After a filtering step, it searches in the database the slope which is associated at Asteracea family. Moreover, it estimates the size of the genome sample in picogram and it cleans the output directory (output_dir) to keep only the list of deviant genes and the size.
 
-## For more information on calibration fo the method, please read the [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/1.Home)
+## For information to calibrate the method, please read the [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/1.Home)
 
 
