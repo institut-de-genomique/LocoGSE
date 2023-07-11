@@ -35,7 +35,7 @@ conda activate LocoGSE
   - `--ref_prot DB_PREFIX`: Path to a monocopy protein database to be used with [DIAMOND](https://github.com/bbuchfink/diamond). The prefix of these 2 files must be given. **Required**. By Default: OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments
   - `--slope NUMBER`: **Optional**. Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in `--list_families` and lineages in `--list_lineages`. There is no need to provide a slope if the species of interest is in the list, you can just provide either the family or the lineage.
   - `--threads NUMBER`: **Optional**. Number of CPUs to use durig the mapping step.
-  - `--recovery`: **Optional**. If present, continue the an interrupted run that was started in the output directory provided with `--output`
+  - `--recovery`: **Optional**. If present, continue an interrupted run that was started in the output directory provided with `--output`
   - `--family NAME`: **Optional if `--slope` is present**.  Specify the plant family in order to use a pre-computed slope
   - `--list-families`: **Optional**. Print all families with available pre-computed slope
   - `--lineage NAME`: **Optional if `--slope` or `--family` is present**.  Specify the plant lineage in order to use a pre-computed slope
