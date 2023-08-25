@@ -32,7 +32,7 @@ conda activate LocoGSE
 ## Arguments
   - `--reads FASTQ_PATH`: Input fastq file. **Required if there is no `--list_fastq` argument**
   - `--list_fastq TXT_PATH`: Text file with, on each line, the list of fastq files to be treated together (same sample). The first column can be the name of the sample. **Required if there is no `--reads` argument**
-  - `--ref_prot DB_PREFIX`: Path to a monocopy protein database to be used with [DIAMOND](https://github.com/bbuchfink/diamond). The prefix of these 2 files must be given. **Required**. By Default: OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments
+  - `--ref_prot DB_PREFIX`: Path to a monocopy protein database to be used with [DIAMOND](https://github.com/bbuchfink/diamond). The prefix of these 2 files must be given. **Required**. By Default: OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments/alignments-FAA-masked.tar.bz
   - `--slope NUMBER`: **Optional**. Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in `--list_families` and lineages in `--list_lineages`. There is no need to provide a slope if the species of interest is in the list, you can just provide either the family or the lineage.
   - `--threads NUMBER`: **Optional**. Number of CPUs to use durig the mapping step.
   - `--recovery`: **Optional**. If present, continue an interrupted run that was started in the output directory provided with `--output`
