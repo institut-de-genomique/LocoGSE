@@ -32,10 +32,12 @@ def launch_mapping(read: str, file_name: str, ref_prot: str, threads: int) -> No
     print(f"\n Done in {float(time.perf_counter() - start)} seconds", flush=True)
 
 
-def concatenate_multi_reads_diamond_results(list_df: list, name_samples: list) -> str:
+def concatenate_multi_reads_diamond_results(list_df: list, name_samples: str) -> str:
     result_df = pd.DataFrame(columns=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
     for sample in list_df:
         sample_df = pd.read_csv(sample, sep="\t", header=None)
+        # Rename the read so there is no collision between files
+        sample_df[0] = sample_df[0].map(lambda x: str(x) + "_" + sample.split(".")[0])
         result_df = pd.concat([result_df, sample_df], ignore_index=True, sort=False)
     result_df.to_csv(
         path_or_buf="Sample_mapped/" + name_samples + "_merged.tsv",
