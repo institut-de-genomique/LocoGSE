@@ -30,7 +30,7 @@ conda activate LocoGSE
 
 ## Input file validation
 
-LocoGSE requires one or more fastq files in order to do its computations. During the mapping step, Diamond only report read names up to the first space in the sequence header. This can cause incorrect results being reported by LocoGSE and we highly encourage users to first check if some reads have identical names when trimmed after the first space. To do so, we include a command `check_seq_names` that can be run like this:
+LocoGSE requires one or more fastq files in order to do its computations. During the mapping step, Diamond only reports read names up to the first space in the sequence header. This can cause incorrect results being reported by LocoGSE and we highly encourage users to first check if some reads have identical names when trimmed after the first space. To do so, we include a command `check_seq_names` that can be run like this:
 ```bash
 check_seq_names fastq1 fastq2 ...
 ```
