@@ -28,6 +28,16 @@ conda env create -f environment.yml
 conda activate LocoGSE
 ```
 
+## Input file validation
+
+LocoGSE requires one or more fastq files in order to do its computations. During the mapping step, Diamond only report read names up to the first space in the sequence header. This can cause incorrect results being reported by LocoGSE and we highly encourage users to first check if some reads have identical names when trimmed after the first space. To do so, we include a command `check_seq_names` that can be run like this:
+```bash
+check_seq_names fastq1 fastq2 ...
+```
+This command will issue warnings if some reads need to be renamed. To proceed with renaming the duplicated identifiers, the [Seqkit](https://bioinf.shenwei.me/seqkit/) software suite can be used, like this:
+```bash
+seqkit rename reads.fastq > reads_renamed.fastq
+```
 
 ## Arguments
   - `--reads FASTQ_PATH`: Input fastq file. **Required if there is no `--list_fastq` argument**

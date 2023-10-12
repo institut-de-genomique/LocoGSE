@@ -34,7 +34,7 @@ setup(
         '': ['lib/']
     },
     entry_points={
-        'console_scripts': ['LocoGSE=LocoGSE.LocoGSE:run'],
+        'console_scripts': ['LocoGSE=LocoGSE.LocoGSE:run', 'check_seq_names=LocoGSE.check_seq_names:run'],
     },
     include_package_data=True,
     zip_safe=False,
