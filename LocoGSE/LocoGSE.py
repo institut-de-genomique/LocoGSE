@@ -138,7 +138,7 @@ def run() :
         "--length_trim",
         action="store",
         dest="length_sequence",
-        help="Cumulative length of all sequences treated after the trimming step (by default : 100 # Highly recommended since the training step was performed with 100nt reads !)",
+        help="Optional. Trim sequences to this size. Default: 100, highly recommended since the training step was performed with 100nt reads",
         default="100",
         required=False,
     )
