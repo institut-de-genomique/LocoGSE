@@ -31,6 +31,8 @@ setup(
     package_data={
         '': ['OneKP.410genes.consensus.dmnd'],
         '': ['OneKP.410genes.consensus.fa'],
+        '': ['BUSCO.ancestral.dmnd'],
+        '': ['BUSCO.ancestral.fa'],
         '': ['lib/']
     },
     entry_points={
