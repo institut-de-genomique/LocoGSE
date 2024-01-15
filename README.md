@@ -56,6 +56,7 @@ seqkit rename reads.fastq > reads_renamed.fastq
   - `--picog yes|no`: **Optional**. Converts default units (Mb) to picograms.
   - `--lgprot TSV_PATH`: **Optional**. A TSV file with protein name in the first column and their lengths in the second column. If not provided, LocoGSE will compute it.
   - `--cleaning_output yes|no`: **Optional**. Remove temporary files and only keep results (list of deviant genes, depth on monocopy gene set, and estimated genome size)
+  - `--busco`: **Optional**. Use Busco's embryophyta dataset and associated slopes instead of OneKP.
 
 ## An example
 
