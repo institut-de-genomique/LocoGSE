@@ -241,9 +241,14 @@ def run() :
 
     # Checking
     if args.ref == "":
-        print("No argument given to --ref_prot, defaulting to the OneKP database")
-        path_main = os.path.abspath(__file__)
-        args.ref = path_main.replace("LocoGSE.py", "OneKP.410genes.consensus")
+        if args.use_busco:
+            print("No argument given to --ref_prot, defaulting to the Busco embryophyta database")
+            path_main = os.path.abspath(__file__)
+            args.ref = path_main.replace("LocoGSE.py", "BUSCO.ancestral")
+        else:
+            print("No argument given to --ref_prot, defaulting to the OneKP database")
+            path_main = os.path.abspath(__file__)
+            args.ref = path_main.replace("LocoGSE.py", "OneKP.410genes.consensus")
     else:
         args.ref = os.path.abspath(args.ref)
 
@@ -268,10 +273,10 @@ def run() :
                 slope = 1
                 no_slope = True
             else:
-                slope = prediction.determine_slope_for_lineage(args.lineage)
+                slope = prediction.determine_slope_for_lineage(args.lineage, args.use_busco)
                 no_slope = False
         else:
-            slope = prediction.determine_slope_for_family(args.family)
+            slope = prediction.determine_slope_for_family(args.family, args.use_busco)
             no_slope = False
     else:
         slope = args.slope
@@ -301,7 +306,7 @@ def run() :
         )
     else:
         # No trimming
-        print("Any trimming")
+        print("No trimming")
 
     # Map reads on protein
     diamond_df_list = []
@@ -346,7 +351,7 @@ def run() :
         )
 
     if no_slope == True:
-        print(f"The depth can be found in {args.output_dir}filtered_sample/df_with_sample_and_coverage.tsv")
+        print(f"The depth can be found in {args.output_dir}/filtered_sample/df_with_sample_and_coverage.tsv")
         print("\nA slope is needed to predict the genome sample size \n")
         print(
             "\n Please provide a family or lineage in order to use a pre-computed slope or calculate a slope as indicated in the wiki: https://github.com/institut-de-genomique/LocoGSE/wiki/2.Linear-regression \n"
@@ -369,8 +374,8 @@ def run() :
         shutil.rmtree("Sample_mapped", ignore_errors=True)
 
     # END
-    print(f"The depth can be found in {args.output_dir}filtered_sample/df_with_sample_and_coverage.tsv")
-    print(f"\nGenome size prediction(s) can be found in {args.output_dir}Sample_Size/samples_sizes.tsv")
+    print(f"The depth can be found in {args.output_dir}/filtered_sample/df_with_sample_and_coverage.tsv")
+    print(f"\nGenome size prediction(s) can be found in {args.output_dir}/Sample_Size/samples_sizes.tsv")
     print(
         f"\n Total running time : {float(time.perf_counter() - global_start)} seconds"
     )

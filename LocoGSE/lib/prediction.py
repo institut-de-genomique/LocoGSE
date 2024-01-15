@@ -4,21 +4,31 @@ from Bio import SeqIO
 import gzip
 
 
-def determine_slope_for_family(family: str) -> float:
+def determine_slope_for_family(family: str, use_busco: bool) -> float:
     path_module = os.path.abspath(__file__)
-    path_database = path_module.replace(
-        "prediction.py", "PlantFamilies.CoeffRegression.txt"
-    )
+    if not use_busco:
+        path_database = path_module.replace(
+            "prediction.py", "PlantFamilies.CoeffRegression.txt"
+        )
+    else:
+        path_database = path_module.replace(
+            "prediction.py", "PlantFamilies.CoeffRegression.BUSCO.txt"
+        )
     database_organism = pd.read_csv(path_database, sep="\t", header=None)
     line_family = database_organism.loc[database_organism[0] == family].index.values
     slope = database_organism.iloc[line_family, 2]
     return list(slope)[0]
 
-def determine_slope_for_lineage(lineage: str) -> float:
+def determine_slope_for_lineage(lineage: str, use_busco: bool) -> float:
     path_module = os.path.abspath(__file__)
-    path_database = path_module.replace(
-        "prediction.py", "PlantFamilies.CoeffRegression.txt"
-    )
+    if not use_busco:
+        path_database = path_module.replace(
+            "prediction.py", "PlantFamilies.CoeffRegression.txt"
+        )
+    else:
+        path_database = path_module.replace(
+            "prediction.py", "PlantFamilies.CoeffRegression.BUSCO.txt"
+        )
     database_organism = pd.read_csv(path_database, sep="\t", header=None)
     line_family = database_organism.loc[database_organism[1] == lineage].index.values
     print(line_family)

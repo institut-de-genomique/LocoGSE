@@ -28,7 +28,7 @@ def writing_depth_for_each_protein(dict_depth_prot: dict, name_file: str) -> Non
     file_coverage_per_specie = open("filtered_sample/" + name_file, "w")
     file_coverage_per_specie.write(name_file+"\n")
     for name, depth in dict_depth_prot.items():
-        file_coverage_per_specie.write(name + "\t" + str(depth) + "\n")
+        file_coverage_per_specie.write(str(name) + "\t" + str(depth) + "\n")
     file_coverage_per_specie.close()
 
 
@@ -68,7 +68,7 @@ def filter_sample(prot_with_length: str, df_besthit: str) -> None:
             dic_depth_prot.pop(x)
             line_deviant = ref.loc[ref[0] == x].index.values
             lgprot_length_total -= ref.iloc[line_deviant[0], 1]
-            list_deviant_genes.append(x)
+            list_deviant_genes.append(str(x))
         writing_depth_for_each_protein(
             dic_depth_prot, os.path.basename(df_besthit[file])
         )
