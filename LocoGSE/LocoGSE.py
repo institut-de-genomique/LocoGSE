@@ -205,14 +205,23 @@ def run() :
         required=False,
     )
 
+    # Use Busco embryophyta proteins and slopes
+    optional_args.add_argument(
+        "--busco",
+        action="store_true",
+        dest="use_busco",
+        help="Use Busco embryophyta proteins and slopes instead of OneKP",
+        required=False,
+    )
+
     args = parser.parse_args()
 
     if args.list_families:
-        checking.list_families_print()
+        checking.list_families_print(args.use_busco)
         sys.exit(-1)
 
     if args.list_lineages:
-        checking.list_lineages_print()
+        checking.list_lineages_print(args.use_busco)
         sys.exit(-1)
 
     # Loading samples

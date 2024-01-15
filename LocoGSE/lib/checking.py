@@ -138,20 +138,33 @@ def complete_single_files(reads: list) -> list:
         name_samples.append("input_"+str(read))
     return number_nt_list, multi_files, name_samples
 
-def list_families_print():
+def list_families_print(use_busco):
     path_module = os.path.abspath(__file__)
-    path_database = path_module.replace(
-        "checking.py", "PlantFamilies.CoeffRegression.txt"
-    )
+
+    if not use_busco:
+        path_database = path_module.replace(
+            "checking.py", "PlantFamilies.CoeffRegression.txt"
+        )
+    else:
+        path_database = path_module.replace(
+            "checking.py", "PlantFamilies.CoeffRegression.BUSCO.txt"
+        )
+
     database_organism = pd.read_csv(path_database, sep="\t", header=None)
     for family in database_organism[0]:
         print(family)
 
-def list_lineages_print():
+def list_lineages_print(use_busco):
     path_module = os.path.abspath(__file__)
-    path_database = path_module.replace(
-        "checking.py", "PlantFamilies.CoeffRegression.txt"
-    )
+
+    if not use_busco:
+        path_database = path_module.replace(
+            "checking.py", "PlantFamilies.CoeffRegression.txt"
+        )
+    else:
+        path_database = path_module.replace(
+            "checking.py", "PlantFamilies.CoeffRegression.BUSCO.txt"
+        )
     database_organism = pd.read_csv(path_database, sep="\t", header=None)
     list_lineage_save=database_organism[1].unique()
     for lineage in list_lineage_save:
