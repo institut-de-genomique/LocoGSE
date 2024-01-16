@@ -60,17 +60,8 @@ def check_slope_type(slope: str) -> None:
         sys.exit(-1)
 
 
-def check_length_sequence(length_sequence: str) -> None:
-    try:
-        val = int(length_sequence)
-    except ValueError:
-        print("ERROR : the length of sequence is not a number")
-        sys.exit(-1)
-
-
 def checking_step(
-    ref: str, slope: str, mapping_step_finished: bool, length_sequence: str
-) -> None:
+    ref: str, slope: str, mapping_step_finished: bool) -> None:
     check_dependencies()
     # Check the reference fasta file
     invalid_chars = check_fasta_prot(ref)
@@ -84,7 +75,6 @@ def checking_step(
         check_creating_directory()
     # Check the slope reference
     check_slope_type(slope)
-    check_length_sequence(length_sequence)
 
 
 def checking_step_recovery_mapping() -> bool:

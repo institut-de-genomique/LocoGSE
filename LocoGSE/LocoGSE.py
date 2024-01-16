@@ -289,7 +289,7 @@ def run() :
     # Checking steps
     mapping_step_finished = checking.checking_step_recovery_mapping()
     counting_nucleotides = checking.checking_step_recovery_computing_nbnt()
-    checking.checking_step(args.ref, slope, mapping_step_finished, args.length_sequence)
+    checking.checking_step(args.ref, slope, mapping_step_finished)
     slope = float(slope)
 
     # Write pegasus script
@@ -301,9 +301,7 @@ def run() :
 
     # Trimming step
     if not args.no_trim:
-        list_fastq = trimming.trimming_step(
-            list_fastq, args.length_sequence, args.threads
-        )
+        list_fastq = trimming.trimming_step(list_fastq, args.threads)
     else:
         # No trimming
         print("No trimming")
