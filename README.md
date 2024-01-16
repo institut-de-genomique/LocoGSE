@@ -50,7 +50,6 @@ seqkit rename reads.fastq > reads_renamed.fastq
   - `--list_families`: **Optional**. Print all families with available pre-computed slope
   - `--lineage NAME`: **Optional if `--slope` or `--family` is present**.  Specify the plant lineage in order to use a pre-computed slope
   - `--list_lineages`: **Optional**. Print all plant lineages with available pre-computed slopes
-  - `--length_trim NUMBER`: **Optional**. Trim sequences to this size. Default: 100, highly recommended since the training step was performed with 100nt reads
   - `--no_trim`: **Optional**. Deactivates the trimming step.
   - `--pegasus yes|no`: **Optional**. Option to write a Pegasus script that can be manually launched to submit multiple mapping commands at the same time.
   - `--picog yes|no`: **Optional**. Converts default units (Mb) to picograms.
