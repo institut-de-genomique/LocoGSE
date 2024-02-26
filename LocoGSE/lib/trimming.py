@@ -14,7 +14,7 @@ def trimming_cutadapt(fastq: str, threads: int) -> None:
         "100",
         fastq,
         "-j",
-        threads,
+        str(threads),
     ]
 
     start = time.perf_counter()
@@ -23,7 +23,7 @@ def trimming_cutadapt(fastq: str, threads: int) -> None:
     try:
         _ = subprocess.run(args=" ".join(cmd), shell=True, check=True)
     except Exception as error:
-        print("\n Error : Couldn't trimming fastq", flush=True)
+        print("\n Error : Couldn't trim fastq", flush=True)
         print(error)
         exit(1)
 
