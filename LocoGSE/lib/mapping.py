@@ -10,7 +10,7 @@ def launch_mapping(read: str, file_name: str, ref_prot: str, threads: int) -> No
     print("\n Generating diamond files ...", flush=True)
     cmd = [
         "diamond blastx -p",
-        threads,
+        str(threads),
         "-q",
         read,
         "-o",
