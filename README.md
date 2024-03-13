@@ -15,6 +15,10 @@ When the sequencing depth is known, the genome size can be estimated with:
 $$ SIZE (~in~Mb) = \frac{total~Nucleotides}{\beta * average~Coverage * 1 000 000} $$
 
 
+<p align="center">
+  <img width="400" alt="schema_A" src="https://github.com/institut-de-genomique/LocoGSE/blob/main/images/schema_A.png?raw=true">
+</p>
+
 ## Installation
 
 ### Conda environment 
