@@ -19,6 +19,8 @@ $$ SIZE (~in~Mb) = \frac{total~Nucleotides}{\beta * average~Coverage * 1 000 000
   <img width="400" alt="schema_A" src="https://github.com/institut-de-genomique/LocoGSE/blob/main/images/schema_A.png?raw=true">
 </p>
 
+Link to the article: [click me](https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2024.1328966/full)
+
 ## Installation
 
 ### Conda environment 
