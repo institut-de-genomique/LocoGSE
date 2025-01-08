@@ -54,6 +54,7 @@ seqkit rename reads.fastq > reads_renamed.fastq
   - `--list_fastq TXT_PATH`: Text file with, on each line, the list of fastq files to be treated together (same sample). The first column can be the name of the sample. **Required if there is no `--reads` argument**
   - `--ref_prot DB_PREFIX`: Path to a monocopy protein database to be used with [DIAMOND](https://github.com/bbuchfink/diamond). The prefix of these 2 files must be given. **Required**. By Default: OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments/alignments-FAA-masked.tar.bz
   - `--slope NUMBER`: **Optional**. Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in `--list_families` and lineages in `--list_lineages`. There is no need to provide a slope if the species of interest is in the list, you can just provide either the family or the lineage.
+  - `--slope-file`: **Optional** Path to a three-column TSV file with the header (`#Family\tPhylo_groups\tslope`) to provide your own custom slopes
   - `--threads NUMBER`: **Optional**. Number of CPUs to use durig the mapping step.
   - `--recovery`: **Optional**. If present, continue an interrupted run that was started in the output directory provided with `--output`
   - `--family NAME`: **Optional if `--slope` is present**.  Specify the plant family in order to use a pre-computed slope
