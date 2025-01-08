@@ -6,9 +6,11 @@ import shutil
 import subprocess
 
 
-def determine_slope_for_family(family: str, use_busco: bool) -> float:
+def determine_slope_for_family(family: str, use_busco: bool, slope_file: str) -> float:
     path_module = os.path.abspath(__file__)
-    if not use_busco:
+    if slope_file:
+        path_database = slope_file
+    elif not use_busco:
         path_database = path_module.replace(
             "prediction.py", "PlantFamilies.CoeffRegression.V2.txt"
         )
@@ -22,9 +24,13 @@ def determine_slope_for_family(family: str, use_busco: bool) -> float:
     return list(slope)[0]
 
 
-def determine_slope_for_lineage(lineage: str, use_busco: bool) -> float:
+def determine_slope_for_lineage(
+    lineage: str, use_busco: bool, slope_file: str
+) -> float:
     path_module = os.path.abspath(__file__)
-    if not use_busco:
+    if slope_file:
+        path_database = slope_file
+    elif not use_busco:
         path_database = path_module.replace(
             "prediction.py", "PlantFamilies.CoeffRegression.V2.txt"
         )

@@ -13,7 +13,7 @@ import time
 import shutil
 
 
-def run() :
+def run():
     parser = argparse.ArgumentParser(
         prog="LocoGSE : Low coverage Genome Size Estimator",
         description="\n\n A Genome Size Estimation program. It is based on a linear relation between the sequencing depth (linked to the genome size) and the depth of mapping short reads on a set of monocopy genes. \n The regression factor (slope) depends of the plant family/lineage : slopes are precomputed for a number of plant families. \n For questions : https://github.com/institut-de-genomique/LocoGSE/issues or pierre.guenzi.tiberi@gmail.com or fdenoeud@genoscope.cns.fr",
@@ -50,7 +50,7 @@ def run() :
         "--list_fastq",
         action="store",
         dest="list_fastq",
-        help="txt file with, on each line, the list of fastq files to be treated together (same sample)(for example: name_sample mypath/read1.fastq mypath/read2.fastq)" ,
+        help="txt file with, on each line, the list of fastq files to be treated together (same sample)(for example: name_sample mypath/read1.fastq mypath/read2.fastq)",
         default="",
         required=False,
     )
@@ -87,8 +87,17 @@ def run() :
         "-s",
         action="store",
         dest="slope",
-        help="Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in --list_families and lineages in --list_lineagges : no need to provide a slope if your species is in the list, you can just provide either the family or the lineage", 
+        help="Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in --list_families and lineages in --list_lineagges : no need to provide a slope if your species is in the list, you can just provide either the family or the lineage",
         default="",
+        required=False,
+    )
+    optional_args.add_argument(
+        "--slope-file",
+        action="store",
+        dest="slope_file",
+        help="Path to a three-column TSV file with the header (#Family\\tPhylo_groups\\tslope) to provide your own custom slopes",
+        default=None,
+        type=os.path.abspath,
         required=False,
     )
 
@@ -237,12 +246,16 @@ def run() :
             print("Please provide samples with either --reads or --list_fastq.")
             sys.exit(-1)
     else:
-        number_nt_list, list_fastq, name_samples = checking.complete_single_files(args.reads)
+        number_nt_list, list_fastq, name_samples = checking.complete_single_files(
+            args.reads
+        )
 
     # Checking
     if args.ref == "":
         if args.use_busco:
-            print("No argument given to --ref_prot, defaulting to the Busco embryophyta database")
+            print(
+                "No argument given to --ref_prot, defaulting to the Busco embryophyta database"
+            )
             path_main = os.path.abspath(__file__)
             args.ref = path_main.replace("LocoGSE.py", "BUSCO.ancestral")
         else:
@@ -273,10 +286,16 @@ def run() :
                 slope = 1
                 no_slope = True
             else:
-                slope = prediction.determine_slope_for_lineage(args.lineage, args.use_busco)
+                slope = prediction.determine_slope_for_lineage(
+                    args.lineage,
+                    args.use_busco,
+                    args.slope_file,
+                )
                 no_slope = False
         else:
-            slope = prediction.determine_slope_for_family(args.family, args.use_busco)
+            slope = prediction.determine_slope_for_family(
+                args.family, args.use_busco, args.slope_file
+            )
             no_slope = False
     else:
         slope = args.slope
@@ -349,7 +368,9 @@ def run() :
         )
 
     if no_slope == True:
-        print(f"The depth can be found in {args.output_dir}/filtered_sample/df_with_sample_and_coverage.tsv")
+        print(
+            f"The depth can be found in {args.output_dir}/filtered_sample/df_with_sample_and_coverage.tsv"
+        )
         print("\nA slope is needed to predict the genome sample size \n")
         print(
             "\n Please provide a family or lineage in order to use a pre-computed slope or calculate a slope as indicated in the wiki: https://github.com/institut-de-genomique/LocoGSE/wiki/2.Linear-regression \n"
@@ -372,11 +393,16 @@ def run() :
         shutil.rmtree("Sample_mapped", ignore_errors=True)
 
     # END
-    print(f"The depth can be found in {args.output_dir}/filtered_sample/df_with_sample_and_coverage.tsv")
-    print(f"\nGenome size prediction(s) can be found in {args.output_dir}/Sample_Size/samples_sizes.tsv")
+    print(
+        f"The depth can be found in {args.output_dir}/filtered_sample/df_with_sample_and_coverage.tsv"
+    )
+    print(
+        f"\nGenome size prediction(s) can be found in {args.output_dir}/Sample_Size/samples_sizes.tsv"
+    )
     print(
         f"\n Total running time : {float(time.perf_counter() - global_start)} seconds"
     )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     run()

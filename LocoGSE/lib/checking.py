@@ -3,6 +3,7 @@ import sys
 import subprocess
 import pandas as pd
 
+
 def check_dependencies() -> None:
     print("\n Checking dependencies ...", flush=True)
     FNULL = open(os.devnull, "w")
@@ -60,8 +61,7 @@ def check_slope_type(slope: str) -> None:
         sys.exit(-1)
 
 
-def checking_step(
-    ref: str, slope: str, mapping_step_finished: bool) -> None:
+def checking_step(ref: str, slope: float, mapping_step_finished: bool) -> None:
     check_dependencies()
     # Check the reference fasta file
     invalid_chars = check_fasta_prot(ref)
@@ -95,6 +95,7 @@ def checking_step_recovery_computing_nbnt() -> bool:
         counting_nucleotides = False
     return counting_nucleotides
 
+
 def complete_multi_files(multi_files_a: str) -> tuple:
     final_multi_files = []
     final_number_nt_list = []
@@ -104,10 +105,14 @@ def complete_multi_files(multi_files_a: str) -> tuple:
     multi.close()
     for line in range(0, len(lines_multi)):
         list_line = lines_multi[line].split()
-        if not list_line[0].endswith(".gz") or not list_line[0].endswith(".fq") or not list_line[0].endswith(".fastq") :
-             final_name_samples_list.append(list_line[0])
+        if (
+            not list_line[0].endswith(".gz")
+            or not list_line[0].endswith(".fq")
+            or not list_line[0].endswith(".fastq")
+        ):
+            final_name_samples_list.append(list_line[0])
         else:
-            final_name_samples_list.append("input_"+str(line))
+            final_name_samples_list.append("input_" + str(line))
         if list_line[-1].isnumeric():
             final_number_nt_list.append(int(list_line[-1]))
             final_multi_files.append(list_line[1 : len(list_line) - 1])
@@ -125,8 +130,9 @@ def complete_single_files(reads: list) -> list:
         multi_files.append(list(""))
         multi_files[read].append(reads[read])
         number_nt_list.append("No_number")
-        name_samples.append("input_"+str(read))
+        name_samples.append("input_" + str(read))
     return number_nt_list, multi_files, name_samples
+
 
 def list_families_print(use_busco):
     path_module = os.path.abspath(__file__)
@@ -144,6 +150,7 @@ def list_families_print(use_busco):
     for family in database_organism[0]:
         print(family)
 
+
 def list_lineages_print(use_busco):
     path_module = os.path.abspath(__file__)
 
@@ -156,6 +163,6 @@ def list_lineages_print(use_busco):
             "checking.py", "PlantFamilies.CoeffRegression.BUSCO.txt"
         )
     database_organism = pd.read_csv(path_database, sep="\t", header=None)
-    list_lineage_save=database_organism[1].unique()
+    list_lineage_save = database_organism[1].unique()
     for lineage in list_lineage_save:
         print(str(lineage))
