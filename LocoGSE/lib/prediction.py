@@ -2,6 +2,8 @@ import os
 import pandas as pd
 from Bio import SeqIO
 import gzip
+import shutil
+import subprocess
 
 
 def determine_slope_for_family(family: str, use_busco: bool) -> float:
@@ -41,12 +43,20 @@ def determine_slope_for_lineage(lineage: str, use_busco: bool) -> float:
 def computing_number_of_nucleotides_fastq(fastq_file: str) -> dict:
     total = 0
     dic_length = {}
-    if fastq_file.endswith(".gz"):
-        fastq_in = gzip.open(fastq_file, "rt")
+
+    if shutil.which("fastoche"):
+        fastoche_out = subprocess.check_output(
+            ["fastoche", "-f", fastq_file, "-c"], text=True
+        )
+        total = int(fastoche_out.split("\n")[1].split(",")[1])
     else:
-        fastq_in = fastq_file
-    for seq_record in SeqIO.parse(fastq_in, "fastq"):
-        total += len(seq_record)
+        if fastq_file.endswith(".gz"):
+            fastq_in = gzip.open(fastq_file, "rt")
+        else:
+            fastq_in = fastq_file
+        for seq_record in SeqIO.parse(fastq_in, "fastq"):
+            total += len(seq_record)
+
     dic_length["sorted_" + os.path.basename(fastq_file) + ".out"] = total
     return dic_length
 

@@ -34,6 +34,10 @@ conda env create -f environment.yml
 conda activate LocoGSE
 ```
 
+### Optional dependency
+
+If [Fastoche](https://github.com/institut-de-genomique/fastoche) is accessible in PATH when running LocoGSE, it will be used to significantly speed up fastq parsing.
+
 ## Input file validation
 
 LocoGSE requires one or more fastq files in order to do its computations. During the mapping step, Diamond only reports read names up to the first space in the sequence header. This can cause incorrect results being reported by LocoGSE and we highly encourage users to first check if some reads have identical names when trimmed after the first space. To do so, we include a command `check_seq_names` that can be run like this:
