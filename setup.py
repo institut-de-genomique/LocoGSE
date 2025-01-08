@@ -28,9 +28,9 @@ setup(
     },
     package_dir={"LocoGSE": "LocoGSE"},
     package_data={
-        "": ["LocoGSE_PlantFamilies.CoeffRegression.V1.txt"],
-        "": ["LocoGSE_PlantFamilies.CoeffRegression.V2.txt"],
-        "": ["LocoGSE_PlantFamilies.CoeffRegression.BUSCO.V2.txt"],
+        "": ["PlantFamilies.CoeffRegression.V1.txt"],
+        "": ["PlantFamilies.CoeffRegression.V2.txt"],
+        "": ["PlantFamilies.CoeffRegression.BUSCO.V2.txt"],
         "": ["OneKP.410genes.consensus.dmnd"],
         "": ["OneKP.410genes.consensus.fa"],
         "": ["BUSCO.ancestral.dmnd"],
