@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from os import path
+
 try:
     from setuptools import setup, Extension
 except ImportError:
@@ -22,25 +23,29 @@ setup(
     author="Pierre Guenzi-Tiberi",
     author_email="pierre.guenzi.tiberi@gmail.com",
     packages={
-        'LocoGSE',
-        'LocoGSE.lib',
+        "LocoGSE",
+        "LocoGSE.lib",
     },
-    package_dir={
-        'LocoGSE': 'LocoGSE'
-    },
+    package_dir={"LocoGSE": "LocoGSE"},
     package_data={
-        '': ['OneKP.410genes.consensus.dmnd'],
-        '': ['OneKP.410genes.consensus.fa'],
-        '': ['BUSCO.ancestral.dmnd'],
-        '': ['BUSCO.ancestral.fa'],
-        '': ['lib/']
+        "": ["LocoGSE_PlantFamilies.CoeffRegression.V1.txt"],
+        "": ["LocoGSE_PlantFamilies.CoeffRegression.V2.txt"],
+        "": ["LocoGSE_PlantFamilies.CoeffRegression.BUSCO.V2.txt"],
+        "": ["OneKP.410genes.consensus.dmnd"],
+        "": ["OneKP.410genes.consensus.fa"],
+        "": ["BUSCO.ancestral.dmnd"],
+        "": ["BUSCO.ancestral.fa"],
+        "": ["lib/"],
     },
     entry_points={
-        'console_scripts': ['LocoGSE=LocoGSE.LocoGSE:run', 'check_seq_names=LocoGSE.check_seq_names:run'],
+        "console_scripts": [
+            "LocoGSE=LocoGSE.LocoGSE:run",
+            "check_seq_names=LocoGSE.check_seq_names:run",
+        ],
     },
     include_package_data=True,
     zip_safe=False,
-    keywords='LocoGSE',
+    keywords="LocoGSE",
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Science/Research",
