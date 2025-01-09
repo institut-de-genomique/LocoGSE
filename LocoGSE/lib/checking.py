@@ -6,34 +6,34 @@ import pandas as pd
 
 def check_dependencies() -> None:
     print("\n Checking dependencies ...", flush=True)
-    FNULL = open(os.devnull, "w")
+    with open(os.devnull, "w") as FNULL:
+        # Looking for Diamond
+        try:
+            subprocess.call(["diamond", "view"], stdout=FNULL, stderr=FNULL)
+            print("\t Found Diamond.", flush=True)
+        except OSError:
+            print("\t ERROR : Diamond not found. ", flush=True)
+            sys.exit(-1)
 
-    # Looking for Diamond
-    try:
-        subprocess.call(["diamond", "view"], stdout=FNULL, stderr=FNULL)
-        print("\t Found Diamond.", flush=True)
-    except OSError:
-        print("\t ERROR : Diamond not found. ", flush=True)
-        sys.exit(-1)
-
-    try:
-        subprocess.call(["cutadapt"], stdout=FNULL, stderr=FNULL)
-        print("\t Found cutadapt", flush=True)
-    except OSError:
-        print("\t ERROR : Cutadapt not found.", flush=True)
-        sys.exit(-1)
+        try:
+            subprocess.call(["cutadapt"], stdout=FNULL, stderr=FNULL)
+            print("\t Found cutadapt", flush=True)
+        except OSError:
+            print("\t ERROR : Cutadapt not found.", flush=True)
+            sys.exit(-1)
 
 
 def check_fasta_prot(prot: list) -> bool:
     authorized_chars = (
         "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:@._"
     )
-    for line in open(prot + ".fa"):
-        if line.startswith(">"):
-            header = line[1:].rstrip("\n")
-            for char in header:
-                if char not in authorized_chars:
-                    return True
+    with open(prot + ".fa") as inf:
+        for line in inf:
+            if line.startswith(">"):
+                header = line[1:].rstrip("\n")
+                for char in header:
+                    if char not in authorized_chars:
+                        return True
     return False
 
 

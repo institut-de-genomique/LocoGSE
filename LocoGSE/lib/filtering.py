@@ -26,7 +26,7 @@ def computing_length_prot_database(ref_prot: str) -> None:
 
 def writing_depth_for_each_protein(dict_depth_prot: dict, name_file: str) -> None:
     file_coverage_per_specie = open("filtered_sample/" + name_file, "w")
-    file_coverage_per_specie.write(name_file+"\n")
+    file_coverage_per_specie.write(name_file + "\n")
     for name, depth in dict_depth_prot.items():
         file_coverage_per_specie.write(str(name) + "\t" + str(depth) + "\n")
     file_coverage_per_specie.close()
@@ -54,6 +54,7 @@ def filter_sample(prot_with_length: str, df_besthit: str) -> None:
 
         mean = sum(dic_length_prot.values()) / lgprot_length_total
         st_dev = statistics.pstdev(dic_length_prot.values())
+        print(dic_length_prot.values())
 
         good_genes = []
         deviant_genes = []

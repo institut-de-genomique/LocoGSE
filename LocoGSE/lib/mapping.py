@@ -21,7 +21,8 @@ def launch_mapping(read: str, file_name: str, ref_prot: str, threads: int) -> No
     ]
 
     start = time.perf_counter()
-    print(" ".join(cmd), flush=True, file=open("cmds/diamond.cmds", "w"))
+    with open("cmds/diamond.cmds", "w") as out:
+        print(" ".join(cmd), flush=True, file=out)
 
     try:
         _ = subprocess.run(args=" ".join(cmd), shell=True, check=True)
@@ -33,12 +34,15 @@ def launch_mapping(read: str, file_name: str, ref_prot: str, threads: int) -> No
 
 
 def concatenate_multi_reads_diamond_results(list_df: list, name_samples: str) -> str:
-    result_df = pd.DataFrame(columns=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+    result_df = pd.DataFrame(columns=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
     for sample in list_df:
         sample_df = pd.read_csv(sample, sep="\t", header=None)
         # Rename the read so there is no collision between files
-        sample_df[0] = sample_df[0].map(lambda x: str(x) + "_" + sample.split("/")[-1].split(".")[0])
+        sample_df[0] = sample_df[0].map(
+            lambda x: str(x) + "_" + sample.split("/")[-1].split(".")[0]
+        )
         result_df = pd.concat([result_df, sample_df], ignore_index=True, sort=False)
+        print(result_df)
     result_df.to_csv(
         path_or_buf="Sample_mapped/" + name_samples + "_merged.tsv",
         sep="\t",
