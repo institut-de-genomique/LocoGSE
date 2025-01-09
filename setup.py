@@ -22,20 +22,22 @@ setup(
     long_description_content_type="text/markdown",
     author="Pierre Guenzi-Tiberi",
     author_email="pierre.guenzi.tiberi@gmail.com",
-    packages={
+    packages=[
         "LocoGSE",
         "LocoGSE.lib",
-    },
+    ],
     package_dir={"LocoGSE": "LocoGSE"},
     package_data={
-        "": ["PlantFamilies.CoeffRegression.V1.txt"],
-        "": ["PlantFamilies.CoeffRegression.V2.txt"],
-        "": ["PlantFamilies.CoeffRegression.BUSCO.V2.txt"],
-        "": ["OneKP.410genes.consensus.dmnd"],
-        "": ["OneKP.410genes.consensus.fa"],
-        "": ["BUSCO.ancestral.dmnd"],
-        "": ["BUSCO.ancestral.fa"],
-        "": ["lib/"],
+        "LocoGSE": [
+            "slopes/PlantFamilies.CoeffRegression.V1.txt",
+            "slopes/PlantFamilies.CoeffRegression.V2.txt",
+            "slopes/PlantFamilies.CoeffRegression.BUSCO.V2.txt",
+            "db/OneKP.410genes.consensus.dmnd",
+            "db/OneKP.410genes.consensus.fa",
+            "db/BUSCO.ancestral.dmnd",
+            "db/BUSCO.ancestral.fa",
+            # "lib/",
+        ],
     },
     entry_points={
         "console_scripts": [

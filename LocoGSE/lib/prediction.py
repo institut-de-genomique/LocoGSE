@@ -12,11 +12,11 @@ def determine_slope_for_family(family: str, use_busco: bool, slope_file: str) ->
         path_database = slope_file
     elif not use_busco:
         path_database = path_module.replace(
-            "prediction.py", "PlantFamilies.CoeffRegression.V2.txt"
+            "prediction.py", "../slopes/PlantFamilies.CoeffRegression.V2.txt"
         )
     else:
         path_database = path_module.replace(
-            "prediction.py", "PlantFamilies.CoeffRegression.BUSCO.V2.txt"
+            "prediction.py", "../slopes/PlantFamilies.CoeffRegression.BUSCO.V2.txt"
         )
     database_organism = pd.read_csv(path_database, sep="\t", header=None)
     line_family = database_organism.loc[database_organism[0] == family].index.values
@@ -32,11 +32,11 @@ def determine_slope_for_lineage(
         path_database = slope_file
     elif not use_busco:
         path_database = path_module.replace(
-            "prediction.py", "PlantFamilies.CoeffRegression.V2.txt"
+            "prediction.py", "../slopes/PlantFamilies.CoeffRegression.V2.txt"
         )
     else:
         path_database = path_module.replace(
-            "prediction.py", "PlantFamilies.CoeffRegression.BUSCO.V2.txt"
+            "prediction.py", "../slopes/PlantFamilies.CoeffRegression.BUSCO.V2.txt"
         )
     database_organism = pd.read_csv(path_database, sep="\t", header=None)
     line_family = database_organism.loc[database_organism[1] == lineage].index.values

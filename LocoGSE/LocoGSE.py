@@ -257,11 +257,11 @@ def run():
                 "No argument given to --ref_prot, defaulting to the Busco embryophyta database"
             )
             path_main = os.path.abspath(__file__)
-            args.ref = path_main.replace("LocoGSE.py", "BUSCO.ancestral")
+            args.ref = path_main.replace("LocoGSE.py", "db/BUSCO.ancestral")
         else:
             print("No argument given to --ref_prot, defaulting to the OneKP database")
             path_main = os.path.abspath(__file__)
-            args.ref = path_main.replace("LocoGSE.py", "OneKP.410genes.consensus")
+            args.ref = path_main.replace("LocoGSE.py", "db/OneKP.410genes.consensus")
     else:
         args.ref = os.path.abspath(args.ref)
 
