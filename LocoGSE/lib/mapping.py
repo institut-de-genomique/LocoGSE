@@ -42,7 +42,6 @@ def concatenate_multi_reads_diamond_results(list_df: list, name_samples: str) ->
             lambda x: str(x) + "_" + sample.split("/")[-1].split(".")[0]
         )
         result_df = pd.concat([result_df, sample_df], ignore_index=True, sort=False)
-        print(result_df)
     result_df.to_csv(
         path_or_buf="Sample_mapped/" + name_samples + "_merged.tsv",
         sep="\t",
