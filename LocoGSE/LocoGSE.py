@@ -21,129 +21,186 @@ def run():
         add_help=True,
     )
 
-    mandatory_args = parser.add_argument_group("Mandatory arguments")
+    args_grp = parser.add_argument_group("Arguments")
 
     # Mandatory arguments
 
     # Fastq file (short reads)
-    mandatory_args.add_argument(
+    args_grp.add_argument(
         "--reads",
         action="store",
         nargs="*",
         dest="reads",
-        help="Directory with all fastq.gz files in single-end",
+        help="Input fastq file. Required if there is no --list_fastq argument",
+        default="",
+        required=False,
+    )
+
+    # Multiple files : listfastq = list of absolute paths to several fastq files (if you put several files on one line they will be treated together: for instance read1.fastq and read2.fastq)
+    args_grp.add_argument(
+        "--list_fastq",
+        action="store",
+        dest="list_fastq",
+        help="Text file with, on each line, the name of the sample followed by the list of fastq files to be treated together (same sample), separator=space. Required if there is no --reads argument",
         default="",
         required=False,
     )
 
     # FASTA file with all reference proteins
-    mandatory_args.add_argument(
+    args_grp.add_argument(
         "--ref_prot",
         action="store",
         dest="ref",
-        help="Path to a monocopy protein database to be used with diamond (the directory must contain a .fa file and a .dmnd file). The prefix of these 2 files must be given. By default : OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments ! Caution: the option --lgprot needs to be provided too!",
-        default="",
-        required=False,
-    )
-    # Multiple files : listfastq = list of absolute paths to several fastq files (if you put several files on one line they will be treated together: for instance read1.fastq and read2.fastq)
-    mandatory_args.add_argument(
-        "--list_fastq",
-        action="store",
-        dest="list_fastq",
-        help="txt file with, on each line, the list of fastq files to be treated together (same sample)(for example: name_sample mypath/read1.fastq mypath/read2.fastq)",
+        help="Optional. Path to a monocopy protein database to be used with DIAMOND (the two files DB_PREFIX.dmnd and DB_PREFIX.fa must exist). By Default if not provided: OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments/alignments-FAA-masked.tar.bz . Alternatively the option --busco can be used to run LocoGSE on Busco Embryophyta odb10 ancestral sequences",
         default="",
         required=False,
     )
 
-    # Optional arguments
-
-    optional_args = parser.add_argument_group("Optional arguments")
-
-    # Recovery
-    optional_args.add_argument(
-        "--recovery",
-        "-r",
+    # Use Busco embryophyta proteins and slopes
+    args_grp.add_argument(
+        "--busco",
         action="store_true",
-        dest="recovery",
-        help="Recovery option to continue the run started in the output directory provided",
-        default=None,
-        required=False,
-    )
-
-    # Threads
-    optional_args.add_argument(
-        "--threads",
-        "-t",
-        action="store",
-        dest="threads",
-        help="Number of threads to be used during the mapping step",
-        default=1,
+        dest="use_busco",
+        help="Optional. Use Busco Embryophyta odb10 dataset and associated slopes instead of OneKP",
         required=False,
     )
 
     # Slope
-    optional_args.add_argument(
+    args_grp.add_argument(
         "--slope",
         "-s",
         action="store",
         dest="slope",
-        help="Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in --list_families and lineages in --list_lineagges : no need to provide a slope if your species is in the list, you can just provide either the family or the lineage",
+        help="Optional. Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in --list_families and lineages in --list_lineages. There is no need to provide a slope if the species of interest is in the list, you can just provide either the family or the lineage",
         default="",
         required=False,
     )
-    optional_args.add_argument(
+    args_grp.add_argument(
         "--slope-file",
         action="store",
         dest="slope_file",
-        help="Path to a three-column TSV file with the header (#Family\\tPhylo_groups\\tslope) to provide your own custom slopes",
+        help="Optional. If one wants to use their own custom slopes. Path to a three-column TSV file with the header (#Family\tPhylo_group\tslope)",
         default=None,
         type=os.path.abspath,
         required=False,
     )
 
     # Family
-    optional_args.add_argument(
+    args_grp.add_argument(
         "--family",
         "-f",
         action="store",
         dest="family",
-        help="Specify the plant family in order to use a pre-computed slope",
+        help="Optional if --slope is present. Specify the plant family in order to use a pre-computed slope",
         default="",
         required=False,
     )
 
     # List of families
-    optional_args.add_argument(
+    args_grp.add_argument(
         "--list_families",
         action="store_true",
         dest="list_families",
-        help="Prints all families with available pre-computed slope",
-        default=None,
+        help="Optional. Print all families with available pre-computed slope",
+        default=False,
         required=False,
     )
 
     # Lineage
-    optional_args.add_argument(
+    args_grp.add_argument(
         "--lineage",
         action="store",
         dest="lineage",
-        help="Specify the plant lineage in order to use a pre-computed slope",
+        help="Optional if --slope or --family is present. Specify the plant lineage in order to use a pre-computed slope",
         default="",
         required=False,
     )
 
     # List of lineages
-    optional_args.add_argument(
+    args_grp.add_argument(
         "--list_lineages",
         action="store_true",
         dest="list_lineages",
-        help="Prints all plant lineages with available pre-computed slope",
-        default=None,
+        help="Optional. Print all plant lineages with available pre-computed slopes",
+        default=False,
+        required=False,
+    )
+
+    # Trimming
+    args_grp.add_argument(
+        "--no_trim",
+        action="store_true",
+        dest="no_trim",
+        help="Optional. Deactivates the trimming step",
+        default=False,
+        required=False,
+    )
+
+    # Size in pg
+    args_grp.add_argument(
+        "--picog",
+        action="store_true",
+        dest="picog",
+        help="Optional. Converts default units (Mb) to picograms",
+        default=False,
+        required=False,
+    )
+
+    # Size of each reference protein, if the user provides another protein set (not OneKp)
+    args_grp.add_argument(
+        "--lgprot",
+        "-l",
+        action="store",
+        dest="lgprot",
+        help="Optional. To be used if a custom db is provided with --ref_prot. A TSV file (sep=\t) with protein names in the first column and their lengths in the second column. If not provided, LocoGSE will compute it",
+        default="",
+        required=False,
+    )
+
+    # Clean output with only sample size
+    args_grp.add_argument(
+        "--cleaning_output",
+        action="store_true",
+        dest="clean",
+        help="Optional. If present, remove temporary files and only keep main results (list of deviant genes, depth on monocopy gene set, and estimated genome size)",
+        default=False,
+        required=False,
+    )
+
+    # Threads
+    args_grp.add_argument(
+        "--threads",
+        "-t",
+        action="store",
+        dest="threads",
+        help="Optional. Number of CPUs to use durig the mapping step. Default=1",
+        default=1,
+        required=False,
+    )
+
+    # Pegasus option
+    args_grp.add_argument(
+        "--pegasus",
+        action="store_true",
+        dest="pegasus",
+        help="Optional. If present, write a Pegasus script 'pegasus_script.txt' that can be manually launched to submit multiple mapping commands at the same time. Also creates directories input_dir_pegasus and output_dir_pegasus",
+        default=False,
+        required=False,
+    )
+
+    # Recovery
+    args_grp.add_argument(
+        "--recovery",
+        "-r",
+        action="store_true",
+        dest="recovery",
+        help="Optional. If present, continue an interrupted run that was started in the output directory provided with --output",
+        default=False,
         required=False,
     )
 
     # Sequence length
-    optional_args.add_argument(
+    args_grp.add_argument(
         "--length_trim",
         action="store",
         dest="length_sequence",
@@ -152,74 +209,14 @@ def run():
         required=False,
     )
 
-    # Trimming
-    optional_args.add_argument(
-        "--no_trim",
-        action="store_true",
-        dest="no_trim",
-        help="Desactivates the trimming step (only if your reads are 100 nt long. Otherwise, highly recommended since the training step was performed with 100nt reads!)",
-        default=None,
-        required=False,
-    )
-
-    # Size in pg
-    optional_args.add_argument(
-        "--picog",
-        action="store",
-        dest="picog",
-        help="Option to convert genome size to picograms (in MB by default)",
-        default="n",
-        required=False,
-    )
-
-    # Size of each reference protein, if the user provides another protein set (not OneKp)
-    optional_args.add_argument(
-        "--lgprot",
-        "-l",
-        action="store",
-        dest="lgprot",
-        help="A TSV file with each protein name(1st column) and its length(2nd column) in aa, if the protein database specified is not OneKp (default)",
-        default="",
-        required=False,
-    )
-
-    # Pegasus option
-    optional_args.add_argument(
-        "--pegasus",
-        action="store_true",
-        dest="pegasus",
-        help="Writes a Pegasus script that can be manually launched to submit multiple mapping commands at the same time",
-        default=None,
-        required=False,
-    )
-
     # Output
-    optional_args.add_argument(
+    args_grp.add_argument(
         "--output",
         "-o",
         action="store",
         dest="output_dir",
         help="Output directory name",
         default="results",
-        required=False,
-    )
-
-    # Clean output with only sample size
-    optional_args.add_argument(
-        "--cleaning_output",
-        action="store_true",
-        dest="clean",
-        help="Remove temporary files and only keep results",
-        default="n",
-        required=False,
-    )
-
-    # Use Busco embryophyta proteins and slopes
-    optional_args.add_argument(
-        "--busco",
-        action="store_true",
-        dest="use_busco",
-        help="Use Busco embryophyta proteins and slopes instead of OneKP",
         required=False,
     )
 

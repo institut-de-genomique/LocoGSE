@@ -27,7 +27,7 @@ def launch_mapping(read: str, file_name: str, ref_prot: str, threads: int) -> No
     try:
         _ = subprocess.run(args=" ".join(cmd), shell=True, check=True)
     except Exception as error:
-        print("\n Error : Couldn't mapping fastq", flush=True)
+        print("\n Error : Could not map fastq", flush=True)
         print(error)
         exit(1)
     print(f"\n Done in {float(time.perf_counter() - start)} seconds", flush=True)

@@ -66,7 +66,7 @@ def checking_step(ref: str, slope: float, mapping_step_finished: bool) -> None:
     # Check the reference fasta file
     invalid_chars = check_fasta_prot(ref)
     if invalid_chars == True:
-        print("Invalid characters were detected in fasta reference --ref_p")
+        print("Invalid characters were detected in fasta reference --ref_prot")
         print(
             "Valid characters are : 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:@ "
         )
