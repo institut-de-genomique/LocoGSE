@@ -53,7 +53,7 @@ def filter_sample(prot_with_length: str, df_besthit: str) -> None:
             dic_depth_prot[rows[0]] = length_per_prot / rows[1]
 
         mean = sum(dic_length_prot.values()) / lgprot_length_total
-        st_dev = statistics.pstdev(map(float, dic_length_prot.values()))
+        st_dev = statistics.pstdev(map(int, dic_length_prot.values()))
 
         good_genes = []
         deviant_genes = []

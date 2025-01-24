@@ -52,7 +52,7 @@ seqkit rename reads.fastq > reads_renamed.fastq
 ## Arguments
 - `--reads FASTQ_PATH`: Input fastq file. **Required if there is no --list_fastq argument**
 - `--list_fastq TXT_PATH`: Text file with, on each line, the name of the sample followed by the list of fastq files to be treated together (same sample), separator=space. **Required if there is no --reads argument**
-- `--ref_prot DB_PREFIX`: **Optional**. Path to a monocopy protein database to be used with DIAMOND (the two files DB_PREFIX.dmnd and DB_PREFIX.fa must exist). By Default if not provided: OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments/alignments-FAA-masked.tar.bz . Alternatively the option --busco can be used to run LocoGSE on Busco Embryophyta odb10 ancestral sequences
+- `--ref_prot DB_PREFIX`: **Optional**. Path to a monocopy protein database to be used with DIAMOND (the two files REF.dmnd and REF.fa must exist). By Default if not provided: OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments/alignments-FAA-masked.tar.bz . Alternatively the option --busco can be used to run LocoGSE on Busco Embryophyta odb10 ancestral sequences
 - `--busco`: **Optional**. Use Busco Embryophyta odb10 dataset and associated slopes instead of OneKP
 - `--slope NUMBER`: **Optional**. Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in --list_families and lineages in --list_lineages. There is no need to provide a slope if the lineage corresponding to the species of interest is in the list : you can just provide either the family (--family) or the lineage (--lineage). If none is provided, default slope is 1.
 - `--slope-file TSV_PATH`: **Optional**. If one wants to use their own custom slopes. Path to a three-column TSV file with the header (#Family\tPhylo_group\tslope)
@@ -64,7 +64,7 @@ seqkit rename reads.fastq > reads_renamed.fastq
 - `--picog`: **Optional**. Converts default units (Mb) to picograms.
 - `--lgprot TSV_PATH`: **Optional**. To be used if a custom db is provided with --ref_prot. A TSV file (sep=\t) with protein names in the first column and their lengths in the second column. If not provided, LocoGSE will compute it.
 - `--cleaning_output`: **Optional**. If present, remove temporary files and only keep main results (list of deviant genes, depth on monocopy gene set, and estimated genome size)
-- `--threads NUMBER`: **Optional**. Number of CPUs to use durig the mapping step. Default=1
+- `--threads NUMBER`: **Optional**. Number of CPUs to use during the mapping step. Default=1
 - `--pegasus`: **Optional**. If present, write a Pegasus script "pegasus_script.txt" that can be manually launched to submit multiple mapping commands at the same time. Also creates directories input_dir_pegasus and output_dir_pegasus
 - `--recovery`: **Optional**. If present, continue an interrupted run that was started in the output directory provided with --output
 

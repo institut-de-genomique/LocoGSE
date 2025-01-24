@@ -34,7 +34,8 @@ def launch_mapping(read: str, file_name: str, ref_prot: str, threads: int) -> No
 
 
 def concatenate_multi_reads_diamond_results(list_df: list, name_samples: str) -> str:
-    result_df = pd.DataFrame(columns=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+    # result_df = pd.DataFrame(columns=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+    result_df = pd.DataFrame()
     for sample in list_df:
         sample_df = pd.read_csv(sample, sep="\t", header=None)
         # Rename the read so there is no collision between files

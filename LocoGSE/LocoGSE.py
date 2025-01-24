@@ -51,7 +51,7 @@ def run():
         "--ref_prot",
         action="store",
         dest="ref",
-        help="Optional. Path to a monocopy protein database to be used with DIAMOND (the two files DB_PREFIX.dmnd and DB_PREFIX.fa must exist). By Default if not provided: OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments/alignments-FAA-masked.tar.bz . Alternatively the option --busco can be used to run LocoGSE on Busco Embryophyta odb10 ancestral sequences",
+        help="Optional. Path to a monocopy protein database to be used with DIAMOND (the two files REF.dmnd and REF.fa must exist). By Default if not provided: OneKP consensus obtained from https://github.com/smirarab/1kp/tree/master/alignments/alignments-FAA-masked.tar.bz . Alternatively the option --busco can be used to run LocoGSE on Busco Embryophyta odb10 ancestral sequences",
         default="",
         required=False,
     )
@@ -71,18 +71,15 @@ def run():
         "-s",
         action="store",
         dest="slope",
-        help="
-        action="store",
-        dest="slope",
         help="Optional. Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in --list_families and lineages in --list_lineages. There is no need to provide a slope if the lineage corresponding to the species of interest is in the list : you can just provide either the family (--family) or the lineage (--lineage). If none is provided, default slope is 1.",
-        default="",
+        default=1,
         required=False,
     )
     args_grp.add_argument(
         "--slope-file",
         action="store",
         dest="slope_file",
-        help="Optional. If one wants to use their own custom slopes. Path to a three-column TSV file with the header (#Family\tPhylo_group\tslope)",
+        help="Optional. If one wants to use their own custom slopes. Path to a three-column TSV file with the header (#Family\\tPhylo_group\\tslope)",
         default=None,
         type=os.path.abspath,
         required=False,
@@ -155,7 +152,7 @@ def run():
         "-l",
         action="store",
         dest="lgprot",
-        help="Optional. To be used if a custom db is provided with --ref_prot. A TSV file (sep=\t) with protein names in the first column and their lengths in the second column. If not provided, LocoGSE will compute it",
+        help="Optional. To be used if a custom db is provided with --ref_prot. A TSV file (sep=\\t) with protein names in the first column and their lengths in the second column. If not provided, LocoGSE will compute it",
         default="",
         required=False,
     )
@@ -176,7 +173,7 @@ def run():
         "-t",
         action="store",
         dest="threads",
-        help="Optional. Number of CPUs to use durig the mapping step. Default=1",
+        help="Optional. Number of CPUs to use during the mapping step. Default=1",
         default=1,
         required=False,
     )
@@ -224,6 +221,7 @@ def run():
     )
 
     args = parser.parse_args()
+    slope = args.slope
 
     if args.list_families:
         checking.list_families_print(args.use_busco)
@@ -277,29 +275,16 @@ def run():
     if args.lgprot != "":
         lgprot_path = os.path.abspath(args.lgprot)
 
-    if args.slope == "":
-        if args.family == "":
-            if args.lineage == "":
-                print(
-                    "Warning: No family or lineage given to --family or --lineage, defaulting to slope=1. List of families and lineages pre-computed are available with --list_families and --list_lineages "
-                )
-                slope = 1
-                no_slope = True
-            else:
-                slope = prediction.determine_slope_for_lineage(
-                    args.lineage,
-                    args.use_busco,
-                    args.slope_file,
-                )
-                no_slope = False
-        else:
-            slope = prediction.determine_slope_for_family(
-                args.family, args.use_busco, args.slope_file
-            )
-            no_slope = False
-    else:
-        slope = args.slope
-        no_slope = False
+    if args.family != "":
+        slope = prediction.determine_slope_for_family(
+            args.family, args.use_busco, args.slope_file
+        )
+    elif args.lineage != "":
+        slope = prediction.determine_slope_for_lineage(
+            args.lineage,
+            args.use_busco,
+            args.slope_file,
+        )
 
     actual_path = os.getcwd()
     os.chdir(args.output_dir)
@@ -352,7 +337,7 @@ def run():
 
     # Compute the number of nucleotides in each FASTQ File (or list of files)
     dic_length_glob = {}
-    if counting_nucleotides == True:
+    if counting_nucleotides:
         dic_length_glob = prediction.recovery_number_nucleotides(
             diamond_df_list, list_fastq
         )
@@ -367,16 +352,6 @@ def run():
             list_fastq, dic_length_glob
         )
 
-    if no_slope == True:
-        print(
-            f"The depth can be found in {args.output_dir}/filtered_sample/df_with_sample_and_coverage.tsv"
-        )
-        print("\nA slope is needed to predict the genome sample size \n")
-        print(
-            "\n Please provide a family or lineage in order to use a pre-computed slope or calculate a slope as indicated in the wiki: https://github.com/institut-de-genomique/LocoGSE/wiki/2.Linear-regression \n"
-        )
-        sys.exit(-1)
-
     # Predicts sample size
     prediction.prediction_size_sample(
         dic_length_glob,
@@ -386,11 +361,13 @@ def run():
     )
 
     # Cleaning the output dir
-    if args.clean != "n":
+    if args.clean:
         shutil.rmtree("best_hit_per_read")
         shutil.rmtree("cmds")
+        shutil.rmtree("deviant_genes")
         shutil.rmtree("ref_prot_length")
         shutil.rmtree("Sample_mapped", ignore_errors=True)
+        shutil.rmtree("Trimmed_directory", ignore_errors=True)
 
     # END
     print(
