@@ -124,7 +124,7 @@ def prediction_size_sample(
     for sample in list(dic_length_glob.keys()):
         line_sample = f_cov.loc[f_cov[0] == sample].index.values
         coverage = f_cov.loc[line_sample[0]][1]
-        if not picog:
+        if picog:
             size = dic_length_glob[sample] / (float(slope) * coverage * 1000000 * 978)
         else:
             size = dic_length_glob[sample] / (float(slope) * coverage * 1000000)
