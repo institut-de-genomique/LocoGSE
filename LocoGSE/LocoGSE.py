@@ -71,7 +71,10 @@ def run():
         "-s",
         action="store",
         dest="slope",
-        help="Optional. Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in --list_families and lineages in --list_lineages. There is no need to provide a slope if the species of interest is in the list, you can just provide either the family or the lineage",
+        help="
+        action="store",
+        dest="slope",
+        help="Optional. Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in --list_families and lineages in --list_lineages. There is no need to provide a slope if the lineage corresponding to the species of interest is in the list : you can just provide either the family (--family) or the lineage (--lineage). If none is provided, default slope is 1.",
         default="",
         required=False,
     )
@@ -91,7 +94,7 @@ def run():
         "-f",
         action="store",
         dest="family",
-        help="Optional if --slope is present. Specify the plant family in order to use a pre-computed slope",
+        help="Optional. Specify the plant family in order to use a pre-computed slope",
         default="",
         required=False,
     )
@@ -111,7 +114,7 @@ def run():
         "--lineage",
         action="store",
         dest="lineage",
-        help="Optional if --slope or --family is present. Specify the plant lineage in order to use a pre-computed slope",
+        help="Optional. Specify the plant lineage in order to use a pre-computed slope",
         default="",
         required=False,
     )
