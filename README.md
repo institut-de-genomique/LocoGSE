@@ -84,11 +84,11 @@ With this command, LocoGSE maps each sample in `merge_fasts.txt` on the protein 
 
 The first calibration was performed on a set of 430 plants as described in [Guenzi-Tiberi et al](https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2024.1328966/full).
 
-The calibration was updated in december 2024 to use a set of 1474 samples released by the [PhyloAlps project](https://www.ebi.ac.uk/ena/browser/view/PRJEB85061) and for which a known 1Cx genome size was obtained from Kew plant C-values database [ Kew plant C-values database](https://cvalues.science.kew.org/) in order to cover more plant lineages, especially gymnosperms and pteridophytes
-.
+The calibration was updated in december 2024 on a set of 1474 samples among those released by the [PhyloAlps project](https://www.ebi.ac.uk/ena/browser/view/PRJEB85061) for which a known 1Cx genome size was obtained from [ Kew plant C-values database](https://cvalues.science.kew.org/) in order to cover more plant lineages, especially gymnosperms and pteridophytes.
+
 The calibration data are available at this [link](https://github.com/user-attachments/files/18560451/DATA_CALIBRATION_V2.csv).
  
-In case one wants to use the calibration slopes described in [Guenzi-Tiberi et al.](https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2024.1328966/full) , they can be downloaded [here](https://github.com/user-attachments/files/18560444/LocoGSE_PlantFamilies.CoeffRegression.V1.txt) and provided to LocoGSE with the option "--slope-file"
+In case one wants to use the calibration slopes described in [Guenzi-Tiberi et al.](https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2024.1328966/full) , they can be downloaded [here](https://github.com/user-attachments/files/18560444/LocoGSE_PlantFamilies.CoeffRegression.V1.txt) and provided to LocoGSE with the option `--slope-file` .
 
 
 ## For information on how to calibrate the method for other lineages, please read the [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/Home)
