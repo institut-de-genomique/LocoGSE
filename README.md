@@ -90,6 +90,8 @@ The calibration data are available at this [link](https://github.com/user-attach
  
 In case one wants to use the calibration slopes described in [Guenzi-Tiberi et al.](https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2024.1328966/full) , they can be downloaded [here](https://github.com/user-attachments/files/18560444/LocoGSE_PlantFamilies.CoeffRegression.V1.txt) and provided to LocoGSE with the option `--slope-file` .
 
+One can visualise current slopes with the option `--view-slope-files` .
+
 
 ## For information on how to calibrate the method for other lineages, please read the [wiki](https://github.com/institut-de-genomique/LocoGSE/wiki/Home)
 
