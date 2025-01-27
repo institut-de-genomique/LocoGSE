@@ -293,10 +293,6 @@ def run():
     if args.lgprot != "":
         lgprot_path = os.path.abspath(args.lgprot)
 
-    print(
-        "Warning: when using multiple samples, they must belong to the same lineage as the slope used will be the same for every sample"
-    )
-
     if args.family != "":
         slope = prediction.determine_slope_for_family(
             args.family, args.use_busco, args.slope_file
