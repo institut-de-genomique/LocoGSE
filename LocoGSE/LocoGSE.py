@@ -41,7 +41,7 @@ def run():
         "--list_fastq",
         action="store",
         dest="list_fastq",
-        help="Text file with, on each line, the name of the sample followed by the list of fastq files to be treated together (same sample), separator=space. Required if there is no --reads argument",
+        help="Text file with, on each line, the name of the sample followed by the list of fastq files to be treated together (same sample), separator=space. Required if there is no --reads argument. Caution: the same slope will be applied for all the samples. To launch genome size predictions in different lineages, LocoGSE needs to be run several times",
         default="",
         required=False,
     )
@@ -71,8 +71,8 @@ def run():
         "-s",
         action="store",
         dest="slope",
-        help="Optional. Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in --list_families and lineages in --list_lineages. There is no need to provide a slope if the lineage corresponding to the species of interest is in the list : you can just provide either the family (--family) or the lineage (--lineage). If none is provided, default slope is 1.",
-        default=1,
+        help="Optional. Slope (regression factor) used to estimate sequencing depth from depth on monocopy proteins. It is specific to each plant lineage. Pre computed slopes are available for families listed in --list_families and lineages in --list_lineages. There is no need to provide a slope if the lineage corresponding to the species of interest is in the list : you can just provide either the family (--family) or the lineage (--lineage). If none is provided, default slope is 1.62 (global slope for all plants in the calibration dataset)",
+        default=1.62,
         required=False,
     )
     args_grp.add_argument(
@@ -82,6 +82,14 @@ def run():
         help="Optional. If one wants to use their own custom slopes. Path to a three-column TSV file with the header (#Family\\tPhylo_group\\tslope)",
         default=None,
         type=os.path.abspath,
+        required=False,
+    )
+    args_grp.add_argument(
+        "--view-slope-file",
+        action="store_true",
+        dest="view_slope_file",
+        help="Prints the default OneKP slopes to standard output",
+        default=False,
         required=False,
     )
 
@@ -162,7 +170,7 @@ def run():
         "--cleaning_output",
         action="store_true",
         dest="clean",
-        help="Optional. If present, remove temporary files and only keep main results (list of deviant genes, depth on monocopy gene set, and estimated genome size)",
+        help="Optional. If present, remove temporary files and only keep main results (depth on monocopy gene set, number of nucleotides in the readset(s), and estimated genome size)",
         default=False,
         required=False,
     )
@@ -223,6 +231,16 @@ def run():
     args = parser.parse_args()
     slope = args.slope
 
+    if args.view_slope_file:
+        path_module = os.path.abspath(__file__)
+        path_database = path_module.replace(
+            "LocoGSE.py", "slopes/PlantFamilies.CoeffRegression.V2.txt"
+        )
+        with open(path_database) as inf:
+            for line in inf:
+                print(line, end="")
+            sys.exit(-1)
+
     if args.list_families:
         checking.list_families_print(args.use_busco)
         sys.exit(-1)
@@ -274,6 +292,10 @@ def run():
 
     if args.lgprot != "":
         lgprot_path = os.path.abspath(args.lgprot)
+
+    print(
+        "Warning: when using multiple samples, they must belong to the same lineage as the slope used will be the same for every sample"
+    )
 
     if args.family != "":
         slope = prediction.determine_slope_for_family(

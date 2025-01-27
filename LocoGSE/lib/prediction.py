@@ -121,13 +121,17 @@ def prediction_size_sample(
 ) -> None:
     f_cov = pd.read_csv(file_coverage, header=None, sep="\t")
     dic_sample_size = {}
+    print(f"\nSlope used: {slope}\n")
     for sample in list(dic_length_glob.keys()):
         line_sample = f_cov.loc[f_cov[0] == sample].index.values
         coverage = f_cov.loc[line_sample[0]][1]
+        # print(f"{os.path.basename(sample)}\t{slope}")
         if picog:
-            size = dic_length_glob[sample] / (float(slope) * coverage * 1000000 * 978)
+            size = int(
+                dic_length_glob[sample] / (float(slope) * coverage * 1000000 * 978)
+            )
         else:
-            size = dic_length_glob[sample] / (float(slope) * coverage * 1000000)
+            size = int(dic_length_glob[sample] / (float(slope) * coverage * 1000000))
         dic_sample_size[os.path.basename(sample)] = size
     df_size = pd.DataFrame.from_dict(dic_sample_size, orient="index")
     df_size.to_csv(path_or_buf="Sample_Size/samples_sizes.tsv", sep="\t", header=False)
