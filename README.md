@@ -2,7 +2,7 @@
 
 Many pipelines or algorithms can estimate the size of a genome. However, they are either based on kmers, a method that requires high sequencing depth (>20X) or mapping on an assembly, which is not always available.   
 Moreover, assembling and annotating genomes just to get some statistics about their theoric size is not very time-efficient.  
-Here we propose a novel method (calibrated for most Angiosperm lineages) based on mapping of reads on single copy genes, that is linearily related to the sequencing depth.  
+Here we propose a novel method (calibrated for Plant lineages) based on mapping of reads on single copy genes, that is linearily related to the sequencing depth.  
 
 This link can be expressed like that :
 
