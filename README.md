@@ -84,7 +84,7 @@ With this command, LocoGSE maps each sample in `merge_fasts.txt` on the protein 
 
 The first calibration was performed on a set of 430 plants as described in [Guenzi-Tiberi et al](https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2024.1328966/full).
 
-The calibration was updated in december 2024 on a set of 1474 samples among those released by the [PhyloAlps project](https://www.ebi.ac.uk/ena/browser/view/PRJEB85061) for which a known 1Cx genome size was obtained from [ Kew plant C-values database](https://cvalues.science.kew.org/) in order to cover more plant lineages, especially gymnosperms and pteridophytes.
+The calibration was updated in december 2024 on a set of 1474 samples among those released by the [PhyloAlps project](https://www.ebi.ac.uk/ena/browser/view/PRJEB85061), described [here](https://www.researchsquare.com/article/rs-6136147) for which a known 1Cx genome size was obtained from [ Kew plant C-values database](https://cvalues.science.kew.org/) in order to cover more plant lineages, especially gymnosperms and pteridophytes.
 
 The calibration data are available at this [link](https://github.com/user-attachments/files/18560451/DATA_CALIBRATION_V2.csv).
  
